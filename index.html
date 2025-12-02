@@ -16,6 +16,7 @@
                 background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
                 min-height: 100vh;
                 padding: 20px;
+                padding-bottom: 120px;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -820,6 +821,45 @@
                     right: 10px;
                 }
             }
+
+            /* Footer Ad Banner */
+            footer {
+                width: 60%;
+                padding: 0px;
+                text-align: center;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                z-index: 10;
+            }
+
+            .ad-wrapper {
+                position: relative;
+                display: inline-block;
+            }
+
+            .ad-label {
+                display: none;
+            }
+
+            footer img {
+                max-width: 100%;
+                height: auto;
+                display: block;
+            }
+
+            /* Responsive footer */
+            @media(max-width: 768px) {
+                footer {
+                    padding: 0px;
+                }
+            }
+
+            @media(max-width: 480px) {
+                footer {
+                    padding: 0px;
+                }
+            }
         </style>
     </head>
     <body>
@@ -971,6 +1011,12 @@
             </div>
         </div>
 
+          <footer>
+            <div class="ad-wrapper">
+              <span class="ad-label">HAHHAHA</span>
+              <img src="./image/ads.png" alt="Advertisement">
+            </div>
+          </footer>
         <script>
             // Create sparkle effects
             function createSparkle() {
@@ -1077,6 +1123,45 @@
                         enableAudioAndPlay(); // Start audio when X is clicked
                     });
                 }
+            })();
+        </script>
+
+        <script>
+            // Footer auto-hide/show cycle: Hide after 5s, show after 1 minute, repeat
+            (function() {
+                const footer = document.querySelector('footer');
+                if (!footer) return;
+
+                function hideFooter() {
+                    footer.style.opacity = '0';
+                    footer.style.visibility = 'hidden';
+                    footer.style.transition = 'opacity 0.5s ease, visibility 0.5s';
+                }
+
+                function showFooter() {
+                    footer.style.opacity = '1';
+                    footer.style.visibility = 'visible';
+                    footer.style.transition = 'opacity 0.5s ease, visibility 0.5s';
+                }
+
+                // Cycle function: Show for 5s, then hide for 60s, repeat
+                function runCycle() {
+                    showFooter(); // Show footer
+                    
+                    setTimeout(function() {
+                        hideFooter(); // Hide after 5 seconds
+                        
+                        setTimeout(function() {
+                            runCycle(); // Show again after 60 seconds and repeat
+                        }, 60000); // 60 seconds = 1 minute
+                    }, 10000); // 10 seconds
+                }
+
+                // Initial: Hide after 5 seconds, then start cycle
+                setTimeout(function() {
+                    hideFooter();
+                    setTimeout(runCycle, 60000); // Start cycle after 1 minute
+                }, 5000); // Hide after 5 seconds initially
             })();
         </script>
 
