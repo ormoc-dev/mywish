@@ -107,9 +107,62 @@
                 animation-delay: 0.6s;
             }
 
+            .wish-item:nth-child(4) {
+                animation-delay: 0.8s;
+            }
+
             .wish-item:hover {
                 transform: translateY(-10px) scale(1.02);
                 box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.4);
+            }
+
+            /* Special styling for Last Option */
+            .wish-item-last {
+                border: 3px solid rgba(255, 215, 0, 0.5);
+                box-shadow: 
+                    0 10px 30px rgba(0, 0, 0, 0.5),
+                    0 0 30px rgba(255, 215, 0, 0.4),
+                    inset 0 0 20px rgba(255, 215, 0, 0.1);
+            }
+
+            .wish-item-last:hover {
+                transform: translateY(-10px) scale(1.02);
+                box-shadow: 
+                    0 15px 40px rgba(0, 0, 0, 0.6),
+                    0 0 40px rgba(255, 215, 0, 0.6),
+                    inset 0 0 30px rgba(255, 215, 0, 0.2);
+                border-color: rgba(255, 215, 0, 0.8);
+            }
+
+            .last-option-title {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: #ffd700;
+                margin-bottom: 15px;
+                text-shadow: 
+                    0 0 15px rgba(255, 215, 0, 0.8),
+                    0 0 30px rgba(255, 215, 0, 0.5);
+                animation: pulse 2s ease-in-out infinite;
+            }
+
+            .last-option-message {
+                font-size: 1rem;
+                color: #fff;
+                line-height: 1.6;
+                margin-top: 10px;
+                font-style: italic;
+                opacity: 0.95;
+            }
+
+            @keyframes pulse {
+                0%, 100% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+                50% {
+                    transform: scale(1.05);
+                    opacity: 0.9;
+                }
             }
 
             .wish-item img {
@@ -137,6 +190,17 @@
 
             .wish-item:hover .wish-overlay {
                 transform: translateY(0);
+            }
+
+            /* Last option overlay - more visible */
+            .wish-item-last .wish-overlay {
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.7));
+                border-top: 2px solid rgba(255, 215, 0, 0.5);
+            }
+
+            .wish-item-last:hover .wish-overlay {
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.98), rgba(0, 0, 0, 0.8));
+                border-top-color: rgba(255, 215, 0, 0.8);
             }
 
             /* Styled Anchor Tags */
@@ -272,6 +336,14 @@
 
                 .wish-item {
                     border-radius: 15px;
+                }
+
+                .last-option-title {
+                    font-size: 1.2rem;
+                }
+
+                .last-option-message {
+                    font-size: 0.9rem;
                 }
             }
 
@@ -762,7 +834,8 @@
                 <div class="intro-decoration bottom-left">⭐</div>
                 <div class="intro-decoration bottom-right">❄</div>
                 <p class="intro-quote">
-                    Hi, I just want you to know that if you are the one who gets my Christmas wish,please don’t feel pressured to follow it exactly. Whatever gift you choose to give, no matter how simple, will be accepted with all my heart.
+                    Hi, I just want you to know that if you are the one who gets my Christmas wish,please don't feel pressured to follow it exactly. Whatever gift you choose to give, no matter how simple, will be accepted with all my heart.
+                </p>
                 <p class="intro-author">Anthony</p>
             </div>
         </div>
@@ -885,6 +958,16 @@
                         <a href="https://shopee.ph/%E2%9A%A1Ready-Stock%E2%9A%A1-199-Speed-Wind-Rechargeable-Turbo-Fan-Portable-Foldable-Mini-Fan-Handheld-Cooling-Fan-i.1104451563.52700300893?extraParams=%7B%22display_model_id%22%3A380027539744%2C%22model_selection_logic%22%3A3%7D&sp_atk=f5c0b360-f32d-4dc8-aaf5-3996672f3390&xptdk=f5c0b360-f32d-4dc8-aaf5-3996672f3390" target="_blank" rel="noopener noreferrer">View Wish</a>
                     </div>
                 </div>
+
+
+                <div class="wish-item wish-item-last">
+                    <img src="./image/4.png" alt="My Wish">
+                    <div class="wish-overlay">
+                        <p class="last-option-title">🎁 Last Option 🎁</p>
+                        <p class="last-option-message">Surprise me with anything you'd like! Your choice is perfect! and accepted with all my heart ❤️</p>
+                    </div>
+                </div>
+
             </div>
         </div>
 
