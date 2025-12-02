@@ -533,87 +533,69 @@
         Your browser does not support the audio element.
     </audio>
     <script>
-        // Force audio to load immediately and play when fully ready (fixes Netlify delay)
+        // Load audio immediately and play on user interaction (touch/click)
         (function() {
             const audio = document.getElementById('santaLaugh');
             if (!audio) return;
             
-            let hasPlayed = false;
-            let playAttempts = 0;
-            const maxAttempts = 10;
+            let audioEnabled = false;
+            let hasPlayedFirst = false;
             
             // Force load the audio immediately - this starts downloading
             audio.load();
             
-            // Function to play audio - only when fully loaded
+            // Function to play audio - only when user has interacted
             function playAudio() {
-                // Check if audio has enough data to play (readyState >= 3 = HAVE_FUTURE_DATA)
-                // This ensures minimal buffering delay on Netlify
-                if (!hasPlayed && audio.readyState >= 3) {
-                    hasPlayed = true;
+                if (audioEnabled && audio.readyState >= 3) {
                     audio.currentTime = 0;
-                    const playPromise = audio.play();
-                    if (playPromise !== undefined) {
-                        playPromise.then(() => {
-                            // Successfully playing
-                        }).catch(error => {
-                            // If autoplay fails, reset hasPlayed so we can try again
-                            hasPlayed = false;
-                            playAttempts++;
-                            if (playAttempts < maxAttempts) {
-                                // Retry after a short delay
-                                setTimeout(() => {
-                                    if (audio.readyState >= 3) {
-                                        playAudio();
-                                    }
-                                }, 500);
-                            }
-                        });
-                    }
-                } else if (!hasPlayed && playAttempts < maxAttempts) {
-                    // Audio not ready yet, wait a bit and try again
-                    playAttempts++;
-                    setTimeout(() => {
+                    audio.play().catch(error => {
+                        console.log('Audio play error:', error);
+                    });
+                }
+            }
+            
+            // Enable audio and play on first user interaction
+            function enableAudioAndPlay() {
+                if (!audioEnabled) {
+                    audioEnabled = true;
+                    if (!hasPlayedFirst) {
+                        hasPlayedFirst = true;
+                        // Wait a moment for audio to be ready, then play
                         if (audio.readyState >= 3) {
                             playAudio();
+                        } else {
+                            // Wait for audio to be ready
+                            audio.addEventListener('canplay', function() {
+                                playAudio();
+                            }, { once: true });
                         }
-                    }, 200);
+                    }
                 }
             }
             
-            // Primary: Wait for audio to be FULLY loaded (canplaythrough = entire file loaded, no buffering)
-            // This is crucial for Netlify to prevent delays - ensures entire file is downloaded
-            audio.addEventListener('canplaythrough', function() {
-                playAudio();
-            }, { once: true });
+            // Listen for user interactions (touch and click)
+            // Touch events for mobile devices
+            document.addEventListener('touchstart', enableAudioAndPlay, { once: true });
+            document.addEventListener('touchend', enableAudioAndPlay, { once: true });
             
-            // Secondary: Also try when enough data is loaded (canplay = can start playing)
-            audio.addEventListener('canplay', function() {
-                if (!hasPlayed && audio.readyState >= 3) {
-                    playAudio();
-                }
-            }, { once: true });
+            // Click events for desktop
+            document.addEventListener('click', enableAudioAndPlay, { once: true });
+            document.addEventListener('mousedown', enableAudioAndPlay, { once: true });
             
-            // Fallback: Check if audio is already loaded when script runs
-            if (audio.readyState >= 3) {
-                playAudio();
-            } else {
-                // If not ready, check periodically until ready
-                const checkInterval = setInterval(() => {
-                    if (audio.readyState >= 3 && !hasPlayed) {
-                        playAudio();
-                        clearInterval(checkInterval);
+            // Also listen for keydown (keyboard interaction)
+            document.addEventListener('keydown', enableAudioAndPlay, { once: true });
+            
+            // Play laugh every 15 seconds (synchronized with Santa animation)
+            // The "Ho Ho Ho" appears at 12% of the cycle (1.8s into 15s cycle)
+            // Only plays if user has enabled audio
+            setInterval(function() {
+                setTimeout(function() {
+                    if (audioEnabled && audio && audio.readyState >= 3) {
+                        audio.currentTime = 0;
+                        audio.play().catch(() => {});
                     }
-                    if (playAttempts >= maxAttempts) {
-                        clearInterval(checkInterval);
-                    }
-                }, 100);
-                
-                // Stop checking after 10 seconds (should be enough even on slow connections)
-                setTimeout(() => {
-                    clearInterval(checkInterval);
-                }, 10000);
-            }
+                }, 1800); // Play at 1.8s mark
+            }, 15000);
         })();
     </script>
     
@@ -650,26 +632,8 @@
         </div>
     </div>
 
-    <script>
-        // Santa laughing audio control - synchronized periodic playback
-        (function() {
-            const santaLaugh = document.getElementById('santaLaugh');
-            
-            if (!santaLaugh) return;
-            
-            // Play laugh every 15 seconds (synchronized with Santa animation)
-            // The "Ho Ho Ho" appears at 12% of the cycle (1.8s into 15s cycle)
-            setInterval(function() {
-                setTimeout(function() {
-                    if (santaLaugh && santaLaugh.readyState >= 2) {
-                        santaLaugh.currentTime = 0;
-                        santaLaugh.play().catch(() => {});
-                    }
-                }, 1800); // Play at 1.8s mark
-            }, 15000);
-        })();
-        
-        // Create sparkle effects
+<script>
+    // Create sparkle effects
         function createSparkle() {
             const sparkle = document.createElement('div');
             sparkle.className = 'sparkle';
