@@ -584,7 +584,7 @@
                 }
             }
 
-            /* Historical Christmas Quote Intro Overlay */
+            /* Gift Icon Intro Overlay - Enhanced Design */
             .intro-overlay {
                 position: fixed;
                 top: 0;
@@ -599,6 +599,29 @@
                 opacity: 1;
                 transition: opacity 1.5s ease-out, visibility 1.5s;
                 visibility: visible;
+                cursor: pointer;
+                overflow: hidden;
+            }
+
+            .intro-overlay::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: 
+                    radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.1) 2px, transparent 2px),
+                    radial-gradient(circle at 60% 70%, rgba(255, 215, 0, 0.08) 1px, transparent 1px),
+                    radial-gradient(circle at 80% 40%, rgba(255, 215, 0, 0.1) 2px, transparent 2px);
+                background-size: 200px 200px, 150px 150px, 180px 180px;
+                animation: twinkleStars 20s linear infinite;
+                pointer-events: none;
+            }
+
+            @keyframes twinkleStars {
+                0%, 100% { opacity: 0.5; }
+                50% { opacity: 1; }
             }
 
             .intro-overlay.hidden {
@@ -609,216 +632,406 @@
 
             .intro-content {
                 text-align: center;
+                padding: 60px;
+                position: relative;
+                animation: introFadeIn 1.5s ease-out;
+                z-index: 1;
+            }
+
+            .gift-container {
+                position: relative;
+                display: inline-block;
+                cursor: pointer;
                 padding: 40px;
-                max-width: 800px;
-                position: relative;
-                animation: introFadeIn 2s ease-out;
             }
 
-            .intro-quote {
-                font-family: 'Georgia', 'Times New Roman', serif;
-                font-size: 2.5rem;
-                color: #ffd700;
-                line-height: 1.6;
-                margin-bottom: 30px;
-                font-style: italic;
-                text-shadow: 
-                    0 0 20px rgba(255, 215, 0, 0.5),
-                    0 0 40px rgba(255, 215, 0, 0.3),
-                    2px 2px 8px rgba(0, 0, 0, 0.8);
-                letter-spacing: 2px;
+            .gift-icon-wrapper {
                 position: relative;
+                display: inline-block;
+                cursor: pointer;
+                z-index: 2;
             }
 
-            .intro-quote::before {
-                content: '"';
-                font-size: 4rem;
-                color: rgba(255, 215, 0, 0.3);
+            .gift-ribbon {
                 position: absolute;
-                left: -40px;
+                top: -30px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 80px;
+                z-index: 1;
+                animation: ribbonFloat 2.5s ease-in-out infinite;
+                filter: drop-shadow(0 0 15px rgba(255, 107, 107, 0.6));
+            }
+
+            @keyframes ribbonFloat {
+                0%, 100% {
+                    transform: translateX(-50%) translateY(0) rotate(-5deg);
+                }
+                50% {
+                    transform: translateX(-50%) translateY(-10px) rotate(5deg);
+                }
+            }
+
+            .gift-icon {
+                font-size: 150px;
+                position: relative;
+                z-index: 2;
+                animation: giftFloat 3s ease-in-out infinite, giftRotate 4s ease-in-out infinite, giftGlow 2.5s ease-in-out infinite;
+                filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 60px rgba(255, 215, 0, 0.5));
+                transition: transform 0.3s ease;
+                display: block;
+            }
+
+            .gift-icon::before {
+                content: '✨';
+                position: absolute;
                 top: -20px;
-                font-family: Georgia, serif;
+                left: -20px;
+                font-size: 40px;
+                animation: sparkleFloat 2s ease-in-out infinite;
             }
 
-            .intro-quote::after {
-                content: '"';
-                font-size: 4rem;
-                color: rgba(255, 215, 0, 0.3);
+            .gift-icon::after {
+                content: '✨';
                 position: absolute;
-                right: -40px;
-                bottom: -40px;
-                font-family: Georgia, serif;
+                bottom: -20px;
+                right: -20px;
+                font-size: 40px;
+                animation: sparkleFloat 2s ease-in-out infinite 1s;
             }
 
-            .intro-author {
-                font-family: 'Georgia', 'Times New Roman', serif;
-                font-size: 1.3rem;
-                color: #fff;
+            @keyframes sparkleFloat {
+                0%, 100% {
+                    opacity: 0.5;
+                    transform: scale(0.8) rotate(0deg);
+                }
+                50% {
+                    opacity: 1;
+                    transform: scale(1.2) rotate(180deg);
+                }
+            }
+
+            .gift-icon:hover {
+                transform: scale(1.15) rotate(5deg);
+            }
+
+            .gift-icon:active {
+                transform: scale(0.9) rotate(-5deg);
+            }
+
+            @keyframes giftFloat {
+                0%, 100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-25px);
+                }
+            }
+
+            @keyframes giftRotate {
+                0%, 100% {
+                    transform: rotate(-8deg);
+                }
+                25% {
+                    transform: rotate(8deg);
+                }
+                50% {
+                    transform: rotate(-5deg);
+                }
+                75% {
+                    transform: rotate(5deg);
+                }
+            }
+
+            @keyframes giftGlow {
+                0%, 100% {
+                    filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 60px rgba(255, 215, 0, 0.5));
+                }
+                50% {
+                    filter: drop-shadow(0 0 50px rgba(255, 215, 0, 1)) drop-shadow(0 0 100px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 150px rgba(255, 107, 107, 0.4));
+                }
+            }
+
+            .click-hint {
                 margin-top: 40px;
-                font-weight: normal;
-                letter-spacing: 3px;
-                text-transform: uppercase;
-                opacity: 0.9;
-                position: relative;
-                padding-top: 20px;
-            }
-
-            .intro-author::before {
-                content: '—';
-                margin-right: 15px;
                 color: #ffd700;
-                font-size: 1.5rem;
+                font-size: 1.8rem;
+                font-weight: bold;
+                text-shadow: 
+                    0 0 20px rgba(255, 215, 0, 1),
+                    0 0 40px rgba(255, 215, 0, 0.7),
+                    0 0 60px rgba(255, 107, 107, 0.5),
+                    2px 2px 4px rgba(0, 0, 0, 0.8);
+                animation: pulseText 2s ease-in-out infinite, textShimmer 3s ease-in-out infinite;
+                letter-spacing: 3px;
+                position: relative;
+                z-index: 2;
             }
 
-            .intro-decoration {
+            .click-hint::before {
+                content: '👉';
+                display: inline-block;
+                margin-right: 15px;
+                animation: pointBounce 1.5s ease-in-out infinite;
+            }
+
+            .click-hint::after {
+                content: '👈';
+                display: inline-block;
+                margin-left: 15px;
+                animation: pointBounce 1.5s ease-in-out infinite 0.75s;
+            }
+
+            @keyframes pointBounce {
+                0%, 100% {
+                    transform: translateX(0);
+                }
+                50% {
+                    transform: translateX(10px);
+                }
+            }
+
+            @keyframes pulseText {
+                0%, 100% {
+                    opacity: 0.9;
+                    transform: scale(1);
+                }
+                50% {
+                    opacity: 1;
+                    transform: scale(1.08);
+                }
+            }
+
+            @keyframes textShimmer {
+                0% {
+                    background-position: -200% center;
+                }
+                100% {
+                    background-position: 200% center;
+                }
+            }
+
+            .sparkles-around-gift {
                 position: absolute;
-                font-size: 30px;
-                color: rgba(255, 215, 0, 0.2);
-                animation: twinkle 3s ease-in-out infinite;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                pointer-events: none;
+                z-index: 1;
             }
 
-            .intro-decoration.top-left {
-                top: 10%;
-                left: 10%;
+            .sparkle-dot {
+                position: absolute;
+                width: 10px;
+                height: 10px;
+                background: radial-gradient(circle, #ffd700, #ff6b6b);
+                border-radius: 50%;
+                box-shadow: 
+                    0 0 15px #ffd700, 
+                    0 0 30px #ffd700,
+                    0 0 45px rgba(255, 107, 107, 0.6);
+                animation: sparkleRotate 4s linear infinite;
+            }
+
+            .sparkle-dot:nth-child(1) {
+                top: 5%;
+                left: 5%;
                 animation-delay: 0s;
             }
 
-            .intro-decoration.top-right {
-                top: 10%;
+            .sparkle-dot:nth-child(2) {
+                top: 15%;
                 right: 10%;
-                animation-delay: 1s;
+                animation-delay: 0.6s;
             }
 
-            .intro-decoration.bottom-left {
-                bottom: 10%;
+            .sparkle-dot:nth-child(3) {
+                bottom: 15%;
                 left: 10%;
-                animation-delay: 0.5s;
+                animation-delay: 1.2s;
             }
 
-            .intro-decoration.bottom-right {
-                bottom: 10%;
-                right: 10%;
+            .sparkle-dot:nth-child(4) {
+                bottom: 5%;
+                right: 5%;
+                animation-delay: 1.8s;
+            }
+
+            .sparkle-dot:nth-child(5) {
+                top: 50%;
+                left: 0%;
+                animation-delay: 0.3s;
+            }
+
+            .sparkle-dot:nth-child(6) {
+                top: 50%;
+                right: 0%;
+                animation-delay: 0.9s;
+            }
+
+            .sparkle-dot:nth-child(7) {
+                top: 30%;
+                left: 50%;
                 animation-delay: 1.5s;
             }
 
-            .intro-close-btn {
-                position: absolute;
-                top: 20px;
-                right: 20px;
-                width: 50px;
-                height: 50px;
-                background: rgba(255, 215, 0, 0.1);
-                border: 2px solid rgba(255, 215, 0, 0.4);
-                border-radius: 50%;
-                color: #ffd700;
-                font-size: 24px;
-                font-weight: bold;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s ease;
-                z-index: 10001;
-                box-shadow: 
-                    0 0 15px rgba(255, 215, 0, 0.3),
-                    inset 0 0 10px rgba(255, 215, 0, 0.1);
+            .sparkle-dot:nth-child(8) {
+                bottom: 30%;
+                left: 50%;
+                animation-delay: 2.1s;
             }
 
-            .intro-close-btn:hover {
-                background: rgba(255, 215, 0, 0.2);
-                border-color: rgba(255, 215, 0, 0.7);
-                transform: scale(1.1) rotate(90deg);
-                box-shadow: 
-                    0 0 25px rgba(255, 215, 0, 0.5),
-                    inset 0 0 15px rgba(255, 215, 0, 0.2);
+            @keyframes sparkleRotate {
+                0% {
+                    opacity: 0;
+                    transform: rotate(0deg) translateX(80px) rotate(0deg) scale(0);
+                }
+                20% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 1;
+                    transform: rotate(180deg) translateX(80px) rotate(-180deg) scale(1.2);
+                }
+                80% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                    transform: rotate(360deg) translateX(80px) rotate(-360deg) scale(0);
+                }
             }
 
-            .intro-close-btn:active {
-                transform: scale(0.95) rotate(90deg);
-            }
-
-            .intro-vintage-border {
+            .floating-snowflakes {
                 position: absolute;
                 top: 0;
                 left: 0;
-                right: 0;
-                bottom: 0;
-                border: 3px solid rgba(255, 215, 0, 0.3);
-                border-radius: 10px;
-                box-shadow: 
-                    inset 0 0 30px rgba(255, 215, 0, 0.1),
-                    0 0 50px rgba(255, 215, 0, 0.2);
+                width: 100%;
+                height: 100%;
                 pointer-events: none;
+                z-index: 0;
             }
 
-            .intro-vintage-border::before {
-                content: '';
+            .snowflake {
                 position: absolute;
-                top: 20px;
-                left: 20px;
-                right: 20px;
-                bottom: 20px;
-                border: 1px solid rgba(255, 215, 0, 0.2);
-                border-radius: 5px;
+                color: rgba(255, 255, 255, 0.8);
+                font-size: 20px;
+                animation: snowfall 10s linear infinite;
             }
 
-            @keyframes introFadeIn {
-                from {
-                    opacity: 0;
-                    transform: translateY(30px) scale(0.95);
+            .snowflake:nth-child(1) { left: 10%; animation-delay: 0s; }
+            .snowflake:nth-child(2) { left: 20%; animation-delay: 1s; }
+            .snowflake:nth-child(3) { left: 30%; animation-delay: 2s; }
+            .snowflake:nth-child(4) { left: 40%; animation-delay: 3s; }
+            .snowflake:nth-child(5) { left: 50%; animation-delay: 4s; }
+            .snowflake:nth-child(6) { left: 60%; animation-delay: 5s; }
+            .snowflake:nth-child(7) { left: 70%; animation-delay: 6s; }
+            .snowflake:nth-child(8) { left: 80%; animation-delay: 7s; }
+            .snowflake:nth-child(9) { left: 90%; animation-delay: 8s; }
+
+            @keyframes snowfall {
+                0% {
+                    top: -10%;
+                    transform: translateX(0) rotate(0deg);
                 }
-                to {
-                    opacity: 1;
-                    transform: translateY(0) scale(1);
+                100% {
+                    top: 110%;
+                    transform: translateX(50px) rotate(360deg);
                 }
             }
 
-            /* Responsive intro */
+            .decorative-corner {
+                position: absolute;
+                font-size: 50px;
+                color: rgba(255, 215, 0, 0.3);
+                animation: cornerTwinkle 3s ease-in-out infinite;
+            }
+
+            .decorative-corner.top-left {
+                top: 10px;
+                left: 10px;
+                animation-delay: 0s;
+            }
+
+            .decorative-corner.top-right {
+                top: 10px;
+                right: 10px;
+                animation-delay: 1s;
+            }
+
+            .decorative-corner.bottom-left {
+                bottom: 10px;
+                left: 10px;
+                animation-delay: 1.5s;
+            }
+
+            .decorative-corner.bottom-right {
+                bottom: 10px;
+                right: 10px;
+                animation-delay: 0.5s;
+            }
+
+            @keyframes cornerTwinkle {
+                0%, 100% {
+                    opacity: 0.3;
+                    transform: scale(1) rotate(0deg);
+                }
+                50% {
+                    opacity: 0.8;
+                    transform: scale(1.2) rotate(180deg);
+                }
+            }
+
+            /* Responsive gift icon */
             @media(max-width: 768px) {
-                .intro-quote {
-                    font-size: 1.8rem;
-                    padding: 0 20px;
+                .gift-icon {
+                    font-size: 110px;
                 }
 
-                .intro-author {
-                    font-size: 1rem;
+                .gift-ribbon {
+                    font-size: 60px;
+                    top: -20px;
                 }
 
-                .intro-quote::before,
-                .intro-quote::after {
-                    font-size: 3rem;
+                .click-hint {
+                    font-size: 1.3rem;
                 }
 
-                .intro-close-btn {
-                    width: 45px;
-                    height: 45px;
-                    font-size: 22px;
-                    top: 15px;
-                    right: 15px;
+                .gift-container {
+                    padding: 30px;
+                }
+
+                .decorative-corner {
+                    font-size: 35px;
                 }
             }
 
             @media(max-width: 480px) {
-                .intro-quote {
-                    font-size: 1.4rem;
-                    letter-spacing: 1px;
+                .gift-icon {
+                    font-size: 90px;
                 }
 
-                .intro-author {
-                    font-size: 0.9rem;
+                .gift-ribbon {
+                    font-size: 50px;
+                    top: -15px;
+                }
+
+                .click-hint {
+                    font-size: 1.1rem;
                     letter-spacing: 2px;
                 }
 
                 .intro-content {
+                    padding: 30px;
+                }
+
+                .gift-container {
                     padding: 20px;
                 }
 
-                .intro-close-btn {
-                    width: 40px;
-                    height: 40px;
-                    font-size: 20px;
-                    top: 10px;
-                    right: 10px;
+                .decorative-corner {
+                    font-size: 30px;
                 }
             }
 
@@ -863,20 +1076,45 @@
         </style>
     </head>
     <body>
-        <!-- Historical Christmas Quote Intro Overlay -->
+        <!-- Gift Icon Intro Overlay - Enhanced Design -->
         <div class="intro-overlay" id="introOverlay">
-          
+            <div class="floating-snowflakes">
+                <div class="snowflake">❄</div>
+                <div class="snowflake">❅</div>
+                <div class="snowflake">❆</div>
+                <div class="snowflake">❄</div>
+                <div class="snowflake">❅</div>
+                <div class="snowflake">❆</div>
+                <div class="snowflake">❄</div>
+                <div class="snowflake">❅</div>
+                <div class="snowflake">❆</div>
+            </div>
+            
             <div class="intro-content">
-                <button class="intro-close-btn" id="introCloseBtn" aria-label="Close">×</button>
-                <div class="intro-vintage-border"></div>
-                <div class="intro-decoration top-left">❄</div>
-                <div class="intro-decoration top-right">✨</div>
-                <div class="intro-decoration bottom-left">⭐</div>
-                <div class="intro-decoration bottom-right">❄</div>
-                <p class="intro-quote">
-                    Hi, I just want you to know that if you are the one who gets my Christmas wish,please don't feel pressured to follow it exactly. Whatever gift you choose to give, no matter how simple, will be accepted with all my heart.
-                </p>
-                <p class="intro-author">Anthony</p>
+                <div class="gift-container" id="giftIconWrapper">
+                    <div class="decorative-corner top-left">⭐</div>
+                    <div class="decorative-corner top-right">✨</div>
+                    <div class="decorative-corner bottom-left">🌟</div>
+                    <div class="decorative-corner bottom-right">⭐</div>
+                    
+                    <div class="sparkles-around-gift">
+                        <div class="sparkle-dot"></div>
+                        <div class="sparkle-dot"></div>
+                        <div class="sparkle-dot"></div>
+                        <div class="sparkle-dot"></div>
+                        <div class="sparkle-dot"></div>
+                        <div class="sparkle-dot"></div>
+                        <div class="sparkle-dot"></div>
+                        <div class="sparkle-dot"></div>
+                    </div>
+                    
+                    <div class="gift-icon-wrapper">
+                        <div class="gift-ribbon">🎀</div>
+                        <div class="gift-icon">🎁</div>
+                    </div>
+                    
+                    <p class="click-hint">Click the gift to open</p>
+                </div>
             </div>
         </div>
 
@@ -1077,10 +1315,10 @@
         </script>
 
         <script>
-            // Handle intro overlay - hide after 4 seconds or on user interaction
+            // Handle gift icon intro overlay - play audio and hide on click
             (function() {
                 const introOverlay = document.getElementById('introOverlay');
-                const closeBtn = document.getElementById('introCloseBtn');
+                const giftIconWrapper = document.getElementById('giftIconWrapper');
                 const audio = document.getElementById('santaLaugh');
                 if (!introOverlay) return;
 
@@ -1114,15 +1352,23 @@
                     }
                 }
 
-                // Close button click handler - also starts audio
-                // This is the ONLY way to close the intro overlay
-                if (closeBtn) {
-                    closeBtn.addEventListener('click', function(e) {
-                        e.stopPropagation(); // Prevent event from bubbling to document
+                // Gift icon click handler - plays audio and hides overlay
+                if (giftIconWrapper) {
+                    giftIconWrapper.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        enableAudioAndPlay();
                         hideIntro();
-                        enableAudioAndPlay(); // Start audio when X is clicked
                     });
                 }
+
+                // Also allow clicking anywhere on the overlay
+                introOverlay.addEventListener('click', function(e) {
+                    // Only trigger if clicking directly on overlay (not on gift wrapper)
+                    if (e.target === introOverlay) {
+                        enableAudioAndPlay();
+                        hideIntro();
+                    }
+                });
             })();
         </script>
 
