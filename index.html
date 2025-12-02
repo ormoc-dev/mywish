@@ -1,697 +1,1001 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Christmas Wish</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* Animated snowflakes background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-                radial-gradient(circle at 60% 70%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-                radial-gradient(circle at 80% 40%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-            background-size: 200px 200px, 150px 150px, 180px 180px;
-            animation: snow 20s linear infinite;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        @keyframes snow {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(100vh); }
-        }
-
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            z-index: 1;
-            position: relative;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: fadeInDown 1s ease-out;
-        }
-
-        .header h1 {
-            color: #fff;
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5),
-                         0 0 40px rgba(255, 215, 0, 0.3),
-                         2px 2px 4px rgba(0, 0, 0, 0.5);
-            letter-spacing: 3px;
-        }
-
-        .header p {
-            color: #ffd700;
-            font-size: 1.2rem;
-            font-style: italic;
-        }
-
-        .wish-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .wish-item {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
-                        0 0 20px rgba(255, 215, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: fadeInUp 1s ease-out;
-            animation-fill-mode: both;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 215, 0, 0.2);
-        }
-
-        .wish-item:nth-child(1) {
-            animation-delay: 0.2s;
-        }
-
-        .wish-item:nth-child(2) {
-            animation-delay: 0.4s;
-        }
-
-        .wish-item:nth-child(3) {
-            animation-delay: 0.6s;
-        }
-
-        .wish-item:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6),
-                        0 0 30px rgba(255, 215, 0, 0.4);
-        }
-
-        .wish-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.3s ease;
-        }
-
-        .wish-item:hover img {
-            transform: scale(1.05);
-        }
-
-        .wish-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-            padding: 20px;
-            color: #fff;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-        }
-
-        .wish-item:hover .wish-overlay {
-            transform: translateY(0);
-        }
-
-        /* Styled Anchor Tags */
-        .wish-overlay a {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 
-                0 4px 15px rgba(255, 107, 107, 0.4),
-                0 0 20px rgba(255, 215, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid rgba(255, 215, 0, 0.3);
-        }
-
-        .wish-overlay a::before {
-            content: '🎁';
-            margin-right: 8px;
-            display: inline-block;
-            animation: giftShake 2s ease-in-out infinite;
-        }
-
-        .wish-overlay a::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .wish-overlay a:hover {
-            transform: translateY(-3px) scale(1.05);
-            background: linear-gradient(135deg, #ff5252 0%, #ff1744 100%);
-            box-shadow: 
-                0 8px 25px rgba(255, 107, 107, 0.6),
-                0 0 30px rgba(255, 215, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 215, 0, 0.6);
-        }
-
-        .wish-overlay a:hover::after {
-            left: 100%;
-        }
-
-        .wish-overlay a:active {
-            transform: translateY(-1px) scale(1.02);
-        }
-
-        @keyframes giftShake {
-            0%, 100% {
-                transform: rotate(0deg);
-            }
-            25% {
-                transform: rotate(-10deg);
-            }
-            75% {
-                transform: rotate(10deg);
-            }
-        }
-
-        /* Responsive anchor tags */
-        @media (max-width: 768px) {
-            .wish-overlay a {
-                padding: 10px 25px;
-                font-size: 0.85rem;
-                margin-top: 12px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .wish-overlay a {
-                padding: 8px 20px;
-                font-size: 0.75rem;
-                margin-top: 10px;
-            }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-
-            .header p {
-                font-size: 1rem;
-            }
-
-            .wish-gallery {
-                grid-template-columns: 1fr;
-                gap: 20px;
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My Christmas Wish</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
             }
 
             body {
-                padding: 15px;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+                min-height: 100vh;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                overflow-x: hidden;
             }
-        }
 
-        @media (max-width: 480px) {
+            /* Animated snowflakes background */
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 1px, transparent 1px), radial-gradient(circle at 60% 70%, rgba(255, 255, 255, 0.1) 1px, transparent 1px), radial-gradient(circle at 80% 40%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+                background-size: 200px 200px, 150px 150px, 180px 180px;
+                animation: snow 20s linear infinite;
+                pointer-events: none;
+                z-index: 0;
+            }
+
+            @keyframes snow {
+                0% {
+                    transform: translateY(0);
+                }
+                100% {
+                    transform: translateY(100vh);
+                }
+            }
+
+            .container {
+                max-width: 1200px;
+                width: 100%;
+                z-index: 1;
+                position: relative;
+            }
+
+            .header {
+                text-align: center;
+                margin-bottom: 40px;
+                animation: fadeInDown 1s ease-out;
+            }
+
             .header h1 {
-                font-size: 1.5rem;
-                letter-spacing: 2px;
+                color: #fff;
+                font-size: 3rem;
+                margin-bottom: 10px;
+                text-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.3), 2px 2px 4px rgba(0, 0, 0, 0.5);
+                letter-spacing: 3px;
+            }
+
+            .header p {
+                color: #ffd700;
+                font-size: 1.2rem;
+                font-style: italic;
+            }
+
+            .wish-gallery {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 30px;
+                margin-top: 30px;
             }
 
             .wish-item {
-                border-radius: 15px;
+                position: relative;
+                border-radius: 20px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.2);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                animation: fadeInUp 1s ease-out;
+                animation-fill-mode: both;
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(10px);
+                border: 2px solid rgba(255, 215, 0, 0.2);
             }
-        }
 
-        /* Decorative elements */
-        .star {
-            position: absolute;
-            color: #ffd700;
-            font-size: 20px;
-            animation: twinkle 2s infinite;
-        }
-
-        .star:nth-child(1) {
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .star:nth-child(2) {
-            top: 20%;
-            right: 15%;
-            animation-delay: 0.5s;
-        }
-
-        .star:nth-child(3) {
-            bottom: 15%;
-            left: 20%;
-            animation-delay: 1s;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-
-        /* Santa Sleigh Animation */
-        .santa-sleigh {
-            position: fixed;
-            top: 15%;
-            left: -200px;
-            z-index: 1000;
-            font-size: 60px;
-            animation: santaFly 15s linear infinite;
-            pointer-events: none;
-            filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
-        }
-
-        @keyframes santaFly {
-            0% {
-                left: -200px;
-                transform: translateY(0) rotate(0deg);
+            .wish-item:nth-child(1) {
+                animation-delay: 0.2s;
             }
-            25% {
-                transform: translateY(-20px) rotate(-5deg);
+
+            .wish-item:nth-child(2) {
+                animation-delay: 0.4s;
             }
-            50% {
-                transform: translateY(0) rotate(0deg);
+
+            .wish-item:nth-child(3) {
+                animation-delay: 0.6s;
             }
-            75% {
-                transform: translateY(20px) rotate(5deg);
+
+            .wish-item:hover {
+                transform: translateY(-10px) scale(1.02);
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.4);
             }
-            100% {
-                left: calc(100% + 200px);
-                transform: translateY(0) rotate(0deg);
+
+            .wish-item img {
+                width: 100%;
+                height: auto;
+                display: block;
+                transition: transform 0.3s ease;
             }
-        }
 
-        /* Ho Ho Ho Text */
-        .ho-ho-ho {
-            position: fixed;
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1001;
-            font-size: 3rem;
-            color: #ff0000;
-            font-weight: bold;
-            text-shadow: 
-                0 0 10px rgba(255, 0, 0, 0.8),
-                0 0 20px rgba(255, 215, 0, 0.6),
-                2px 2px 4px rgba(0, 0, 0, 0.8);
-            opacity: 0;
-            animation: hoHoHo 15s infinite;
-            pointer-events: none;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-        }
-
-        @keyframes hoHoHo {
-            0%, 10% {
-                opacity: 0;
-                transform: translateX(-50%) scale(0.5);
+            .wish-item:hover img {
+                transform: scale(1.05);
             }
-            12%, 18% {
-                opacity: 1;
-                transform: translateX(-50%) scale(1.2);
+
+            .wish-overlay {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+                padding: 20px;
+                color: #fff;
+                transform: translateY(100%);
+                transition: transform 0.3s ease;
             }
-            20%, 100% {
-                opacity: 0;
-                transform: translateX(-50%) scale(0.5);
+
+            .wish-item:hover .wish-overlay {
+                transform: translateY(0);
             }
-        }
 
-        /* Santa Hat Decoration */
-        .santa-hat {
-            position: absolute;
-            font-size: 40px;
-            z-index: 999;
-            animation: hatBounce 2s ease-in-out infinite;
-            filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.5));
-        }
-
-        .santa-hat.top-left {
-            top: 5%;
-            left: 5%;
-            animation-delay: 0s;
-        }
-
-        .santa-hat.top-right {
-            top: 5%;
-            right: 5%;
-            animation-delay: 1s;
-        }
-
-        .santa-hat.bottom-left {
-            bottom: 5%;
-            left: 5%;
-            animation-delay: 0.5s;
-        }
-
-        .santa-hat.bottom-right {
-            bottom: 5%;
-            right: 5%;
-            animation-delay: 1.5s;
-        }
-
-        @keyframes hatBounce {
-            0%, 100% {
-                transform: translateY(0) rotate(-10deg);
+            /* Styled Anchor Tags */
+            .wish-overlay a {
+                display: inline-block;
+                margin-top: 15px;
+                padding: 12px 30px;
+                background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+                color: #fff;
+                text-decoration: none;
+                border-radius: 25px;
+                font-weight: bold;
+                font-size: 0.95rem;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4), 0 0 20px rgba(255, 215, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+                border: 2px solid rgba(255, 215, 0, 0.3);
             }
-            50% {
-                transform: translateY(-15px) rotate(10deg);
+
+            .wish-overlay a::before {
+                content: '🎁';
+                margin-right: 8px;
+                display: inline-block;
+                animation: giftShake 2s ease-in-out infinite;
             }
-        }
 
-        /* Reindeer Trail */
-        .reindeer-trail {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 999;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .trail-dot {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 215, 0, 0.6);
-            border-radius: 50%;
-            animation: trailFade 2s ease-out infinite;
-        }
-
-        @keyframes trailFade {
-            0% {
-                opacity: 1;
-                transform: scale(1);
+            .wish-overlay a::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                transition: left 0.5s ease;
             }
-            100% {
-                opacity: 0;
-                transform: scale(0);
-            }
-        }
 
-        /* Santa's Magic Sparkles */
-        .sparkle {
-            position: fixed;
-            width: 6px;
-            height: 6px;
-            background: #ffd700;
-            border-radius: 50%;
-            z-index: 998;
-            pointer-events: none;
-            box-shadow: 0 0 10px #ffd700;
-            animation: sparkleFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes sparkleFloat {
-            0%, 100% {
-                opacity: 0;
-                transform: translateY(0) scale(0);
+            .wish-overlay a:hover {
+                transform: translateY(-3px) scale(1.05);
+                background: linear-gradient(135deg, #ff5252 0%, #ff1744 100%);
+                box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6), 0 0 30px rgba(255, 215, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+                border-color: rgba(255, 215, 0, 0.6);
             }
-            50% {
-                opacity: 1;
-                transform: translateY(-50px) scale(1);
-            }
-        }
 
-        /* Responsive adjustments for Santa effects */
-        @media (max-width: 768px) {
-            .santa-sleigh {
-                font-size: 40px;
+            .wish-overlay a:hover::after {
+                left: 100%;
+            }
+
+            .wish-overlay a:active {
+                transform: translateY(-1px) scale(1.02);
+            }
+
+            @keyframes giftShake {
+                0,
+                100% {
+                    transform: rotate(0deg);
+                }
+                25% {
+                    transform: rotate(-10deg);
+                }
+                75% {
+                    transform: rotate(10deg);
+                }
+            }
+
+            /* Responsive anchor tags */
+            @media(max-width: 768px) {
+                .wish-overlay a {
+                    padding: 10px 25px;
+                    font-size: 0.85rem;
+                    margin-top: 12px;
+                }
+            }
+
+            @media(max-width: 480px) {
+                .wish-overlay a {
+                    padding: 8px 20px;
+                    font-size: 0.75rem;
+                    margin-top: 10px;
+                }
+            }
+
+            @keyframes fadeInDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* Responsive Design */
+            @media(max-width: 768px) {
+                .header h1 {
+                    font-size: 2rem;
+                }
+
+                .header p {
+                    font-size: 1rem;
+                }
+
+                .wish-gallery {
+                    grid-template-columns: 1fr;
+                    gap: 20px;
+                }
+
+                body {
+                    padding: 15px;
+                }
+            }
+
+            @media(max-width: 480px) {
+                .header h1 {
+                    font-size: 1.5rem;
+                    letter-spacing: 2px;
+                }
+
+                .wish-item {
+                    border-radius: 15px;
+                }
+            }
+
+            /* Decorative elements */
+            .star {
+                position: absolute;
+                color: #ffd700;
+                font-size: 20px;
+                animation: twinkle 2s infinite;
+            }
+
+            .star:nth-child(1) {
                 top: 10%;
+                left: 10%;
+                animation-delay: 0s;
             }
 
-            .ho-ho-ho {
-                font-size: 2rem;
+            .star:nth-child(2) {
+                top: 20%;
+                right: 15%;
+                animation-delay: 0.5s;
             }
 
-            .santa-hat {
-                font-size: 30px;
+            .star:nth-child(3) {
+                bottom: 15%;
+                left: 20%;
+                animation-delay: 1s;
             }
-        }
 
-        @media (max-width: 480px) {
+            @keyframes twinkle {
+                0,
+                100% {
+                    opacity: 0.3;
+                    transform: scale(1);
+                }
+                50% {
+                    opacity: 1;
+                    transform: scale(1.2);
+                }
+            }
+
+            /* Santa Sleigh Animation */
             .santa-sleigh {
-                font-size: 30px;
-                top: 8%;
+                position: fixed;
+                top: 15%;
+                left: -200px;
+                z-index: 1000;
+                font-size: 60px;
+                animation: santaFly 15s linear infinite;
+                pointer-events: none;
+                filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
             }
 
+            @keyframes santaFly {
+                0% {
+                    left: -200px;
+                    transform: translateY(0) rotate(0deg);
+                }
+                25% {
+                    transform: translateY(-20px) rotate(-5deg);
+                }
+                50% {
+                    transform: translateY(0) rotate(0deg);
+                }
+                75% {
+                    transform: translateY(20px) rotate(5deg);
+                }
+                100% {
+                    left: calc(100% + 200px);
+                    transform: translateY(0) rotate(0deg);
+                }
+            }
+
+            /* Ho Ho Ho Text */
             .ho-ho-ho {
+                position: fixed;
+                top: 20%;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 1001;
+                font-size: 3rem;
+                color: #ff0000;
+                font-weight: bold;
+                text-shadow: 0 0 10px rgba(255, 0, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.6), 2px 2px 4px rgba(0, 0, 0, 0.8);
+                opacity: 0;
+                animation: hoHoHo 15s infinite;
+                pointer-events: none;
+                font-family: 'Comic Sans MS', cursive, sans-serif;
+            }
+
+            @keyframes hoHoHo {
+                0,
+                10% {
+                    opacity: 0;
+                    transform: translateX(-50%) scale(0.5);
+                }
+                12%,
+                18% {
+                    opacity: 1;
+                    transform: translateX(-50%) scale(1.2);
+                }
+                20%,
+                100% {
+                    opacity: 0;
+                    transform: translateX(-50%) scale(0.5);
+                }
+            }
+
+            /* Santa Hat Decoration */
+            .santa-hat {
+                position: absolute;
+                font-size: 40px;
+                z-index: 999;
+                animation: hatBounce 2s ease-in-out infinite;
+                filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.5));
+            }
+
+            .santa-hat.top-left {
+                top: 5%;
+                left: 5%;
+                animation-delay: 0s;
+            }
+
+            .santa-hat.top-right {
+                top: 5%;
+                right: 5%;
+                animation-delay: 1s;
+            }
+
+            .santa-hat.bottom-left {
+                bottom: 5%;
+                left: 5%;
+                animation-delay: 0.5s;
+            }
+
+            .santa-hat.bottom-right {
+                bottom: 5%;
+                right: 5%;
+                animation-delay: 1.5s;
+            }
+
+            @keyframes hatBounce {
+                0,
+                100% {
+                    transform: translateY(0) rotate(-10deg);
+                }
+                50% {
+                    transform: translateY(-15px) rotate(10deg);
+                }
+            }
+
+            /* Reindeer Trail */
+            .reindeer-trail {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 999;
+                pointer-events: none;
+                overflow: hidden;
+            }
+
+            .trail-dot {
+                position: absolute;
+                width: 4px;
+                height: 4px;
+                background: rgba(255, 215, 0, 0.6);
+                border-radius: 50%;
+                animation: trailFade 2s ease-out infinite;
+            }
+
+            @keyframes trailFade {
+                0% {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(0);
+                }
+            }
+
+            /* Santa's Magic Sparkles */
+            .sparkle {
+                position: fixed;
+                width: 6px;
+                height: 6px;
+                background: #ffd700;
+                border-radius: 50%;
+                z-index: 998;
+                pointer-events: none;
+                box-shadow: 0 0 10px #ffd700;
+                animation: sparkleFloat 3s ease-in-out infinite;
+            }
+
+            @keyframes sparkleFloat {
+                0,
+                100% {
+                    opacity: 0;
+                    transform: translateY(0) scale(0);
+                }
+                50% {
+                    opacity: 1;
+                    transform: translateY(-50px) scale(1);
+                }
+            }
+
+            /* Responsive adjustments for Santa effects */
+            @media(max-width: 768px) {
+                .santa-sleigh {
+                    font-size: 40px;
+                    top: 10%;
+                }
+
+                .ho-ho-ho {
+                    font-size: 2rem;
+                }
+
+                .santa-hat {
+                    font-size: 30px;
+                }
+            }
+
+            @media(max-width: 480px) {
+                .santa-sleigh {
+                    font-size: 30px;
+                    top: 8%;
+                }
+
+                .ho-ho-ho {
+                    font-size: 1.5rem;
+                }
+
+                .santa-hat {
+                    font-size: 25px;
+                }
+            }
+
+            /* Historical Christmas Quote Intro Overlay */
+            .intro-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 50%, #16213e 100%);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 1;
+                transition: opacity 1.5s ease-out, visibility 1.5s;
+                visibility: visible;
+            }
+
+            .intro-overlay.hidden {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
+
+            .intro-content {
+                text-align: center;
+                padding: 40px;
+                max-width: 800px;
+                position: relative;
+                animation: introFadeIn 2s ease-out;
+            }
+
+            .intro-quote {
+                font-family: 'Georgia', 'Times New Roman', serif;
+                font-size: 2.5rem;
+                color: #ffd700;
+                line-height: 1.6;
+                margin-bottom: 30px;
+                font-style: italic;
+                text-shadow: 
+                    0 0 20px rgba(255, 215, 0, 0.5),
+                    0 0 40px rgba(255, 215, 0, 0.3),
+                    2px 2px 8px rgba(0, 0, 0, 0.8);
+                letter-spacing: 2px;
+                position: relative;
+            }
+
+            .intro-quote::before {
+                content: '"';
+                font-size: 4rem;
+                color: rgba(255, 215, 0, 0.3);
+                position: absolute;
+                left: -40px;
+                top: -20px;
+                font-family: Georgia, serif;
+            }
+
+            .intro-quote::after {
+                content: '"';
+                font-size: 4rem;
+                color: rgba(255, 215, 0, 0.3);
+                position: absolute;
+                right: -40px;
+                bottom: -40px;
+                font-family: Georgia, serif;
+            }
+
+            .intro-author {
+                font-family: 'Georgia', 'Times New Roman', serif;
+                font-size: 1.3rem;
+                color: #fff;
+                margin-top: 40px;
+                font-weight: normal;
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                opacity: 0.9;
+                position: relative;
+                padding-top: 20px;
+            }
+
+            .intro-author::before {
+                content: '—';
+                margin-right: 15px;
+                color: #ffd700;
                 font-size: 1.5rem;
             }
 
-            .santa-hat {
-                font-size: 25px;
+            .intro-decoration {
+                position: absolute;
+                font-size: 30px;
+                color: rgba(255, 215, 0, 0.2);
+                animation: twinkle 3s ease-in-out infinite;
             }
-        }
-    </style>
-</head>
-<body>
-    <!-- Santa Sleigh -->
-    <div class="santa-sleigh">🎅🛷</div>
-    
-    <!-- Ho Ho Ho Text -->
-    <div class="ho-ho-ho">Ho Ho Ho!</div>
-    
-    <!-- Santa Hats -->
-    <div class="santa-hat top-left">🎩</div>
-    <div class="santa-hat top-right">🎩</div>
-    <div class="santa-hat bottom-left">🎩</div>
-    <div class="santa-hat bottom-right">🎩</div>
-    
-    <!-- Reindeer Trail Container -->
-    <div class="reindeer-trail" id="trail"></div>
-    
-    <!-- Santa Laughing Audio -->
-    <audio id="santaLaugh" preload="auto">
-        <source src="./audo/santa-claus-laughing.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-    <script>
-        // Load audio immediately and play on user interaction (touch/click)
-        (function() {
-            const audio = document.getElementById('santaLaugh');
-            if (!audio) return;
-            
-            let audioEnabled = false;
-            let hasPlayedFirst = false;
-            
-            // Force load the audio immediately - this starts downloading
-            audio.load();
-            
-            // Function to play audio - only when user has interacted
-            function playAudio() {
-                if (audioEnabled && audio.readyState >= 3) {
-                    audio.currentTime = 0;
-                    audio.play().catch(error => {
-                        console.log('Audio play error:', error);
-                    });
+
+            .intro-decoration.top-left {
+                top: 10%;
+                left: 10%;
+                animation-delay: 0s;
+            }
+
+            .intro-decoration.top-right {
+                top: 10%;
+                right: 10%;
+                animation-delay: 1s;
+            }
+
+            .intro-decoration.bottom-left {
+                bottom: 10%;
+                left: 10%;
+                animation-delay: 0.5s;
+            }
+
+            .intro-decoration.bottom-right {
+                bottom: 10%;
+                right: 10%;
+                animation-delay: 1.5s;
+            }
+
+            .intro-close-btn {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                background: rgba(255, 215, 0, 0.1);
+                border: 2px solid rgba(255, 215, 0, 0.4);
+                border-radius: 50%;
+                color: #ffd700;
+                font-size: 24px;
+                font-weight: bold;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+                z-index: 10001;
+                box-shadow: 
+                    0 0 15px rgba(255, 215, 0, 0.3),
+                    inset 0 0 10px rgba(255, 215, 0, 0.1);
+            }
+
+            .intro-close-btn:hover {
+                background: rgba(255, 215, 0, 0.2);
+                border-color: rgba(255, 215, 0, 0.7);
+                transform: scale(1.1) rotate(90deg);
+                box-shadow: 
+                    0 0 25px rgba(255, 215, 0, 0.5),
+                    inset 0 0 15px rgba(255, 215, 0, 0.2);
+            }
+
+            .intro-close-btn:active {
+                transform: scale(0.95) rotate(90deg);
+            }
+
+            .intro-vintage-border {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border: 3px solid rgba(255, 215, 0, 0.3);
+                border-radius: 10px;
+                box-shadow: 
+                    inset 0 0 30px rgba(255, 215, 0, 0.1),
+                    0 0 50px rgba(255, 215, 0, 0.2);
+                pointer-events: none;
+            }
+
+            .intro-vintage-border::before {
+                content: '';
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                right: 20px;
+                bottom: 20px;
+                border: 1px solid rgba(255, 215, 0, 0.2);
+                border-radius: 5px;
+            }
+
+            @keyframes introFadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px) scale(0.95);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
                 }
             }
-            
-            // Enable audio and play on first user interaction
-            function enableAudioAndPlay() {
-                if (!audioEnabled) {
-                    audioEnabled = true;
-                    if (!hasPlayedFirst) {
-                        hasPlayedFirst = true;
-                        // Wait a moment for audio to be ready, then play
+
+            /* Responsive intro */
+            @media(max-width: 768px) {
+                .intro-quote {
+                    font-size: 1.8rem;
+                    padding: 0 20px;
+                }
+
+                .intro-author {
+                    font-size: 1rem;
+                }
+
+                .intro-quote::before,
+                .intro-quote::after {
+                    font-size: 3rem;
+                }
+
+                .intro-close-btn {
+                    width: 45px;
+                    height: 45px;
+                    font-size: 22px;
+                    top: 15px;
+                    right: 15px;
+                }
+            }
+
+            @media(max-width: 480px) {
+                .intro-quote {
+                    font-size: 1.4rem;
+                    letter-spacing: 1px;
+                }
+
+                .intro-author {
+                    font-size: 0.9rem;
+                    letter-spacing: 2px;
+                }
+
+                .intro-content {
+                    padding: 20px;
+                }
+
+                .intro-close-btn {
+                    width: 40px;
+                    height: 40px;
+                    font-size: 20px;
+                    top: 10px;
+                    right: 10px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Historical Christmas Quote Intro Overlay -->
+        <div class="intro-overlay" id="introOverlay">
+          
+            <div class="intro-content">
+                <button class="intro-close-btn" id="introCloseBtn" aria-label="Close">×</button>
+                <div class="intro-vintage-border"></div>
+                <div class="intro-decoration top-left">❄</div>
+                <div class="intro-decoration top-right">✨</div>
+                <div class="intro-decoration bottom-left">⭐</div>
+                <div class="intro-decoration bottom-right">❄</div>
+                <p class="intro-quote">
+                    Hi, I just want you to know that if you are the one who gets my Christmas wish,please don’t feel pressured to follow it exactly. Whatever gift you choose to give, no matter how simple, will be accepted with all my heart.
+                <p class="intro-author">Anthony</p>
+            </div>
+        </div>
+
+        <!-- Santa Sleigh -->
+        <div class="santa-sleigh">🎅🛷</div>
+
+        <!-- Ho Ho Ho Text -->
+        <div class="ho-ho-ho">Ho Ho Ho!</div>
+
+        <!-- Santa Hats -->
+        <div class="santa-hat top-left">🎩</div>
+        <div class="santa-hat top-right">🎩</div>
+        <div class="santa-hat bottom-left">🎩</div>
+        <div class="santa-hat bottom-right">🎩</div>
+
+        <!-- Reindeer Trail Container -->
+        <div class="reindeer-trail" id="trail"></div>
+
+        <!-- Santa Laughing Audio -->
+        <audio id="santaLaugh" preload="auto">
+            <source src="./audo/santa-claus-laughing.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <script>
+            // Load audio immediately and play on user interaction (touch/click)
+            (function () {
+                const audio = document.getElementById('santaLaugh');
+                if (! audio) 
+                    return;
+                
+
+                let audioEnabled = false;
+                let hasPlayedFirst = false;
+
+                // Force load the audio immediately - this starts downloading
+                audio.load();
+
+                // Function to play audio - only when user has interacted
+                function playAudio() {
+                    if (audioEnabled && audio.readyState >= 3) {
+                        audio.currentTime = 0;
+                        audio.play().catch(error => {
+                            console.log('Audio play error:', error);
+                        });
+                    }
+                }
+
+                // Enable audio and play on first user interaction
+                function enableAudioAndPlay() {
+                    if (! audioEnabled) {
+                        audioEnabled = true;
+                        if (! hasPlayedFirst) {
+                            hasPlayedFirst = true;
+                            // Wait a moment for audio to be ready, then play
+                            if (audio.readyState >= 3) {
+                                playAudio();
+                            } else { // Wait for audio to be ready
+                                audio.addEventListener('canplay', function () {
+                                    playAudio();
+                                }, {once: true});
+                            }
+                        }
+                    }
+                }
+
+                // Listen for user interactions (touch and click)
+                // Touch events for mobile devices
+                document.addEventListener('touchstart', enableAudioAndPlay, {once: true});
+                document.addEventListener('touchend', enableAudioAndPlay, {once: true});
+
+                // Click events for desktop
+                document.addEventListener('click', enableAudioAndPlay, {once: true});
+                document.addEventListener('mousedown', enableAudioAndPlay, {once: true});
+
+                // Also listen for keydown (keyboard interaction)
+                document.addEventListener('keydown', enableAudioAndPlay, {once: true});
+
+                // Play laugh every 15 seconds (synchronized with Santa animation)
+                // The "Ho Ho Ho" appears at 12% of the cycle (1.8s into 15s cycle)
+                // Only plays if user has enabled audio
+                setInterval(function () {
+                    setTimeout(function () {
+                        if (audioEnabled && audio && audio.readyState >= 3) {
+                            audio.currentTime = 0;
+                            audio.play().catch(() => {});
+                        }
+                    }, 1800); // Play at 1.8s mark
+                }, 15000);
+            })();
+        </script>
+
+        <div class="container">
+            <div class="header">
+                <h1>✨ Anthony's Christmas Wish ✨</h1>
+                <p>May your heart be filled with joy and wonder</p>
+            </div>
+
+            <div class="wish-gallery">
+                <div class="wish-item">
+                    <img src="./image/1.png" alt="My Wish">
+                    <div class="wish-overlay">
+                        <p>Wish #1</p>
+                        <a href="https://shopee.ph/Transformers-TF-T51-Wireless-Bluetooth-Earphone-Noise-Canceling-Earphone-i.961777861.27510289677?extraParams=%7B%22display_model_id%22%3A251533836163%2C%22model_selection_logic%22%3A3%7D&sp_atk=f31b460f-1acc-48e2-a6c8-c723012d94e5&xptdk=f31b460f-1acc-48e2-a6c8-c723012d94e5" target="_blank" rel="noopener noreferrer">View Wish</a>
+                    </div>
+                </div>
+
+                <div class="wish-item">
+                    <img src="./image/2.png" alt="My Wish">
+                    <div class="wish-overlay">
+                        <p>Wish #2</p>
+                        <a href="https://shopee.ph/New-Spring-Sneakers-for-Men-Breathable-Thick-Soled-Casual-Shoes-Sports-Versatile-Men's-Shoes-i.1012200779.25464176663?extraParams=%7B%22display_model_id%22%3A236060692673%2C%22model_selection_logic%22%3A3%7D&sp_atk=32ceb984-f41d-4d2e-a346-72ad53a742eb&xptdk=32ceb984-f41d-4d2e-a346-72ad53a742eb" target="_blank" rel="noopener noreferrer">View Wish</a>
+                    </div>
+                </div>
+
+                <div class="wish-item">
+                    <img src="./image/3.png" alt="My Wish">
+                    <div class="wish-overlay">
+                        <p>Wish #3</p>
+                        <a href="https://shopee.ph/%E2%9A%A1Ready-Stock%E2%9A%A1-199-Speed-Wind-Rechargeable-Turbo-Fan-Portable-Foldable-Mini-Fan-Handheld-Cooling-Fan-i.1104451563.52700300893?extraParams=%7B%22display_model_id%22%3A380027539744%2C%22model_selection_logic%22%3A3%7D&sp_atk=f5c0b360-f32d-4dc8-aaf5-3996672f3390&xptdk=f5c0b360-f32d-4dc8-aaf5-3996672f3390" target="_blank" rel="noopener noreferrer">View Wish</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Create sparkle effects
+            function createSparkle() {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(sparkle);
+
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 3000);
+            }
+
+            // Create reindeer trail dots
+            function createTrailDot() {
+                const trail = document.getElementById('trail');
+                const dot = document.createElement('div');
+                dot.className = 'trail-dot';
+
+                // Position along Santa's path
+                const progress = (Date.now() % 15000) / 15000;
+                dot.style.left = (progress * 100) + '%';
+                dot.style.top = (15 + Math.sin(progress * Math.PI * 4) * 2) + '%';
+                dot.style.animationDelay = Math.random() * 0.5 + 's';
+
+                trail.appendChild(dot);
+
+                setTimeout(() => {
+                    dot.remove();
+                }, 2000);
+            }
+
+            // Create sparkles periodically
+            setInterval(createSparkle, 500);
+
+            // Create trail dots periodically
+            setInterval(createTrailDot, 100);
+
+            // Add click effect - create extra sparkles on click
+            document.addEventListener('click', function (e) { // Create sparkles
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        const sparkle = document.createElement('div');
+                        sparkle.className = 'sparkle';
+                        sparkle.style.left = e.clientX + 'px';
+                        sparkle.style.top = e.clientY + 'px';
+                        sparkle.style.animationDuration = '1s';
+                        document.body.appendChild(sparkle);
+
+                        setTimeout(() => {
+                            sparkle.remove();
+                        }, 1000);
+                    }, i * 50);
+                }
+            });
+        </script>
+
+        <script>
+            // Handle intro overlay - hide after 4 seconds or on user interaction
+            (function() {
+                const introOverlay = document.getElementById('introOverlay');
+                const closeBtn = document.getElementById('introCloseBtn');
+                const audio = document.getElementById('santaLaugh');
+                if (!introOverlay) return;
+
+                let introHidden = false;
+
+                function hideIntro() {
+                    if (!introHidden) {
+                        introHidden = true;
+                        introOverlay.classList.add('hidden');
+                    }
+                }
+
+                // Function to enable and play audio
+                function enableAudioAndPlay() {
+                    if (audio) {
+                        // Enable audio by trying to play (this enables audio context)
                         if (audio.readyState >= 3) {
-                            playAudio();
+                            audio.currentTime = 0;
+                            audio.play().catch(error => {
+                                console.log('Audio play error:', error);
+                            });
                         } else {
                             // Wait for audio to be ready
                             audio.addEventListener('canplay', function() {
-                                playAudio();
+                                audio.currentTime = 0;
+                                audio.play().catch(error => {
+                                    console.log('Audio play error:', error);
+                                });
                             }, { once: true });
                         }
                     }
                 }
-            }
-            
-            // Listen for user interactions (touch and click)
-            // Touch events for mobile devices
-            document.addEventListener('touchstart', enableAudioAndPlay, { once: true });
-            document.addEventListener('touchend', enableAudioAndPlay, { once: true });
-            
-            // Click events for desktop
-            document.addEventListener('click', enableAudioAndPlay, { once: true });
-            document.addEventListener('mousedown', enableAudioAndPlay, { once: true });
-            
-            // Also listen for keydown (keyboard interaction)
-            document.addEventListener('keydown', enableAudioAndPlay, { once: true });
-            
-            // Play laugh every 15 seconds (synchronized with Santa animation)
-            // The "Ho Ho Ho" appears at 12% of the cycle (1.8s into 15s cycle)
-            // Only plays if user has enabled audio
-            setInterval(function() {
-                setTimeout(function() {
-                    if (audioEnabled && audio && audio.readyState >= 3) {
-                        audio.currentTime = 0;
-                        audio.play().catch(() => {});
-                    }
-                }, 1800); // Play at 1.8s mark
-            }, 15000);
-        })();
-    </script>
-    
-    <div class="container">
-        <div class="header">
-            <h1>✨ Anthony's Christmas Wish ✨</h1>
-            <p>May your heart be filled with joy and wonder</p>
-        </div>
-        
-        <div class="wish-gallery">
-            <div class="wish-item">
-    <img src="./image/1.png" alt="My Wish">
-                <div class="wish-overlay">
-                    <p>Wish #1</p>
-                    <a href="https://shopee.ph/Transformers-TF-T51-Wireless-Bluetooth-Earphone-Noise-Canceling-Earphone-i.961777861.27510289677?extraParams=%7B%22display_model_id%22%3A251533836163%2C%22model_selection_logic%22%3A3%7D&sp_atk=f31b460f-1acc-48e2-a6c8-c723012d94e5&xptdk=f31b460f-1acc-48e2-a6c8-c723012d94e5" target="_blank" rel="noopener noreferrer">View Wish</a>
-                </div>
-            </div>
-            
-            <div class="wish-item">
-    <img src="./image/2.png" alt="My Wish">
-                <div class="wish-overlay">
-                    <p>Wish #2</p>
-                    <a href="https://shopee.ph/New-Spring-Sneakers-for-Men-Breathable-Thick-Soled-Casual-Shoes-Sports-Versatile-Men's-Shoes-i.1012200779.25464176663?extraParams=%7B%22display_model_id%22%3A236060692673%2C%22model_selection_logic%22%3A3%7D&sp_atk=32ceb984-f41d-4d2e-a346-72ad53a742eb&xptdk=32ceb984-f41d-4d2e-a346-72ad53a742eb" target="_blank" rel="noopener noreferrer">View Wish</a>
-                </div>
-            </div>
-            
-            <div class="wish-item">
-    <img src="./image/3.png" alt="My Wish">
-                <div class="wish-overlay">
-                    <p>Wish #3</p>
-                    <a href="https://shopee.ph/%E2%9A%A1Ready-Stock%E2%9A%A1-199-Speed-Wind-Rechargeable-Turbo-Fan-Portable-Foldable-Mini-Fan-Handheld-Cooling-Fan-i.1104451563.52700300893?extraParams=%7B%22display_model_id%22%3A380027539744%2C%22model_selection_logic%22%3A3%7D&sp_atk=f5c0b360-f32d-4dc8-aaf5-3996672f3390&xptdk=f5c0b360-f32d-4dc8-aaf5-3996672f3390" target="_blank" rel="noopener noreferrer">View Wish</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
-<script>
-    // Create sparkle effects
-        function createSparkle() {
-            const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle';
-            sparkle.style.left = Math.random() * 100 + '%';
-            sparkle.style.top = Math.random() * 100 + '%';
-            sparkle.style.animationDelay = Math.random() * 2 + 's';
-            document.body.appendChild(sparkle);
-            
-            setTimeout(() => {
-                sparkle.remove();
-            }, 3000);
-        }
+                // Close button click handler - also starts audio
+                // This is the ONLY way to close the intro overlay
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', function(e) {
+                        e.stopPropagation(); // Prevent event from bubbling to document
+                        hideIntro();
+                        enableAudioAndPlay(); // Start audio when X is clicked
+                    });
+                }
+            })();
+        </script>
 
-        // Create reindeer trail dots
-        function createTrailDot() {
-            const trail = document.getElementById('trail');
-            const dot = document.createElement('div');
-            dot.className = 'trail-dot';
-            
-            // Position along Santa's path
-            const progress = (Date.now() % 15000) / 15000;
-            dot.style.left = (progress * 100) + '%';
-            dot.style.top = (15 + Math.sin(progress * Math.PI * 4) * 2) + '%';
-            dot.style.animationDelay = Math.random() * 0.5 + 's';
-            
-            trail.appendChild(dot);
-            
-            setTimeout(() => {
-                dot.remove();
-            }, 2000);
-        }
-
-        // Create sparkles periodically
-        setInterval(createSparkle, 500);
-
-        // Create trail dots periodically
-        setInterval(createTrailDot, 100);
-
-        // Add click effect - create extra sparkles on click
-        document.addEventListener('click', function(e) {
-            // Create sparkles
-            for (let i = 0; i < 5; i++) {
-                setTimeout(() => {
-                    const sparkle = document.createElement('div');
-                    sparkle.className = 'sparkle';
-                    sparkle.style.left = e.clientX + 'px';
-                    sparkle.style.top = e.clientY + 'px';
-                    sparkle.style.animationDuration = '1s';
-                    document.body.appendChild(sparkle);
-                    
-                    setTimeout(() => {
-                        sparkle.remove();
-                    }, 1000);
-                }, i * 50);
-            }
-        });
-    </script>
-
-    
-</body>
+    </body>
 </html>
