@@ -528,26 +528,91 @@
     <div class="reindeer-trail" id="trail"></div>
     
     <!-- Santa Laughing Audio -->
-    <audio id="santaLaugh" preload="auto" autoplay>
+    <audio id="santaLaugh" preload="auto">
         <source src="./audo/santa-claus-laughing.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
     <script>
-        // Immediate audio playback - no delays
+        // Force audio to load immediately and play when fully ready (fixes Netlify delay)
         (function() {
             const audio = document.getElementById('santaLaugh');
-            if (audio) {
-                // Try to play immediately
-                audio.play().catch(() => {});
+            if (!audio) return;
+            
+            let hasPlayed = false;
+            let playAttempts = 0;
+            const maxAttempts = 10;
+            
+            // Force load the audio immediately - this starts downloading
+            audio.load();
+            
+            // Function to play audio - only when fully loaded
+            function playAudio() {
+                // Check if audio has enough data to play (readyState >= 3 = HAVE_FUTURE_DATA)
+                // This ensures minimal buffering delay on Netlify
+                if (!hasPlayed && audio.readyState >= 3) {
+                    hasPlayed = true;
+                    audio.currentTime = 0;
+                    const playPromise = audio.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            // Successfully playing
+                        }).catch(error => {
+                            // If autoplay fails, reset hasPlayed so we can try again
+                            hasPlayed = false;
+                            playAttempts++;
+                            if (playAttempts < maxAttempts) {
+                                // Retry after a short delay
+                                setTimeout(() => {
+                                    if (audio.readyState >= 3) {
+                                        playAudio();
+                                    }
+                                }, 500);
+                            }
+                        });
+                    }
+                } else if (!hasPlayed && playAttempts < maxAttempts) {
+                    // Audio not ready yet, wait a bit and try again
+                    playAttempts++;
+                    setTimeout(() => {
+                        if (audio.readyState >= 3) {
+                            playAudio();
+                        }
+                    }, 200);
+                }
+            }
+            
+            // Primary: Wait for audio to be FULLY loaded (canplaythrough = entire file loaded, no buffering)
+            // This is crucial for Netlify to prevent delays - ensures entire file is downloaded
+            audio.addEventListener('canplaythrough', function() {
+                playAudio();
+            }, { once: true });
+            
+            // Secondary: Also try when enough data is loaded (canplay = can start playing)
+            audio.addEventListener('canplay', function() {
+                if (!hasPlayed && audio.readyState >= 3) {
+                    playAudio();
+                }
+            }, { once: true });
+            
+            // Fallback: Check if audio is already loaded when script runs
+            if (audio.readyState >= 3) {
+                playAudio();
+            } else {
+                // If not ready, check periodically until ready
+                const checkInterval = setInterval(() => {
+                    if (audio.readyState >= 3 && !hasPlayed) {
+                        playAudio();
+                        clearInterval(checkInterval);
+                    }
+                    if (playAttempts >= maxAttempts) {
+                        clearInterval(checkInterval);
+                    }
+                }, 100);
                 
-                // Also try when audio can play
-                audio.addEventListener('canplay', function() {
-                    audio.play().catch(() => {});
-                }, { once: true });
-                
-                audio.addEventListener('loadeddata', function() {
-                    audio.play().catch(() => {});
-                }, { once: true });
+                // Stop checking after 10 seconds (should be enough even on slow connections)
+                setTimeout(() => {
+                    clearInterval(checkInterval);
+                }, 10000);
             }
         })();
     </script>
@@ -586,61 +651,17 @@
     </div>
 
     <script>
-        // Santa laughing audio control - play immediately
+        // Santa laughing audio control - synchronized periodic playback
         (function() {
             const santaLaugh = document.getElementById('santaLaugh');
             
-            // Function to play audio
-            function playSantaLaugh() {
-                if (santaLaugh) {
-                    santaLaugh.currentTime = 0; // Reset to start
-                    const playPromise = santaLaugh.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(error => {
-                            // Silently handle autoplay restrictions
-                            console.log('Audio autoplay prevented:', error);
-                        });
-                    }
-                }
-            }
-            
-            // Try to play immediately when audio element is ready
-            if (santaLaugh) {
-                // If audio is already loaded, play immediately
-                if (santaLaugh.readyState >= 2) {
-                    playSantaLaugh();
-                } else {
-                    // Wait for audio to be ready, then play immediately
-                    santaLaugh.addEventListener('canplaythrough', function() {
-                        playSantaLaugh();
-                    }, { once: true });
-                    
-                    // Also try to play as soon as possible
-                    santaLaugh.addEventListener('loadeddata', function() {
-                        playSantaLaugh();
-                    }, { once: true });
-                }
-            }
-            
-            // Try to play on DOMContentLoaded (faster than window.load)
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', function() {
-                    if (santaLaugh && santaLaugh.readyState >= 2) {
-                        playSantaLaugh();
-                    }
-                });
-            } else {
-                // DOM is already loaded, try to play immediately
-                if (santaLaugh && santaLaugh.readyState >= 2) {
-                    playSantaLaugh();
-                }
-            }
+            if (!santaLaugh) return;
             
             // Play laugh every 15 seconds (synchronized with Santa animation)
             // The "Ho Ho Ho" appears at 12% of the cycle (1.8s into 15s cycle)
             setInterval(function() {
                 setTimeout(function() {
-                    if (santaLaugh) {
+                    if (santaLaugh && santaLaugh.readyState >= 2) {
                         santaLaugh.currentTime = 0;
                         santaLaugh.play().catch(() => {});
                     }
