@@ -532,6 +532,25 @@
         <source src="./audo/santa-claus-laughing.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+    <script>
+        // Immediate audio playback - no delays
+        (function() {
+            const audio = document.getElementById('santaLaugh');
+            if (audio) {
+                // Try to play immediately
+                audio.play().catch(() => {});
+                
+                // Also try when audio can play
+                audio.addEventListener('canplay', function() {
+                    audio.play().catch(() => {});
+                }, { once: true });
+                
+                audio.addEventListener('loadeddata', function() {
+                    audio.play().catch(() => {});
+                }, { once: true });
+            }
+        })();
+    </script>
     
     <div class="container">
         <div class="header">
@@ -541,7 +560,7 @@
         
         <div class="wish-gallery">
             <div class="wish-item">
-                <img src="./image/1.png" alt="My Wish">
+    <img src="./image/1.png" alt="My Wish">
                 <div class="wish-overlay">
                     <p>Wish #1</p>
                     <a href="https://shopee.ph/Transformers-TF-T51-Wireless-Bluetooth-Earphone-Noise-Canceling-Earphone-i.961777861.27510289677?extraParams=%7B%22display_model_id%22%3A251533836163%2C%22model_selection_logic%22%3A3%7D&sp_atk=f31b460f-1acc-48e2-a6c8-c723012d94e5&xptdk=f31b460f-1acc-48e2-a6c8-c723012d94e5" target="_blank" rel="noopener noreferrer">View Wish</a>
@@ -549,7 +568,7 @@
             </div>
             
             <div class="wish-item">
-                <img src="./image/2.png" alt="My Wish">
+    <img src="./image/2.png" alt="My Wish">
                 <div class="wish-overlay">
                     <p>Wish #2</p>
                     <a href="https://shopee.ph/New-Spring-Sneakers-for-Men-Breathable-Thick-Soled-Casual-Shoes-Sports-Versatile-Men's-Shoes-i.1012200779.25464176663?extraParams=%7B%22display_model_id%22%3A236060692673%2C%22model_selection_logic%22%3A3%7D&sp_atk=32ceb984-f41d-4d2e-a346-72ad53a742eb&xptdk=32ceb984-f41d-4d2e-a346-72ad53a742eb" target="_blank" rel="noopener noreferrer">View Wish</a>
@@ -557,7 +576,7 @@
             </div>
             
             <div class="wish-item">
-                <img src="./image/3.png" alt="My Wish">
+    <img src="./image/3.png" alt="My Wish">
                 <div class="wish-overlay">
                     <p>Wish #3</p>
                     <a href="https://shopee.ph/%E2%9A%A1Ready-Stock%E2%9A%A1-199-Speed-Wind-Rechargeable-Turbo-Fan-Portable-Foldable-Mini-Fan-Handheld-Cooling-Fan-i.1104451563.52700300893?extraParams=%7B%22display_model_id%22%3A380027539744%2C%22model_selection_logic%22%3A3%7D&sp_atk=f5c0b360-f32d-4dc8-aaf5-3996672f3390&xptdk=f5c0b360-f32d-4dc8-aaf5-3996672f3390" target="_blank" rel="noopener noreferrer">View Wish</a>
@@ -567,45 +586,67 @@
     </div>
 
     <script>
-        // Santa laughing audio control
-        const santaLaugh = document.getElementById('santaLaugh');
-        
-        // Play Santa laugh when he appears (synchronized with "Ho Ho Ho" text)
-        function playSantaLaugh() {
-            if (santaLaugh) {
-                santaLaugh.currentTime = 0; // Reset to start
-                santaLaugh.play().catch(error => {
-                    // If autoplay fails, try again after a short delay
-                    console.log('Audio play prevented, retrying...', error);
-                    setTimeout(() => {
-                        santaLaugh.play().catch(() => {});
-                    }, 1000);
-                });
+        // Santa laughing audio control - play immediately
+        (function() {
+            const santaLaugh = document.getElementById('santaLaugh');
+            
+            // Function to play audio
+            function playSantaLaugh() {
+                if (santaLaugh) {
+                    santaLaugh.currentTime = 0; // Reset to start
+                    const playPromise = santaLaugh.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            // Silently handle autoplay restrictions
+                            console.log('Audio autoplay prevented:', error);
+                        });
+                    }
+                }
             }
-        }
-        
-        // Auto-play audio when page loads
-        window.addEventListener('load', function() {
+            
+            // Try to play immediately when audio element is ready
             if (santaLaugh) {
-                santaLaugh.play().catch(error => {
-                    // Retry after a short delay if autoplay is blocked
-                    setTimeout(() => {
-                        santaLaugh.play().catch(() => {});
-                    }, 500);
-                });
+                // If audio is already loaded, play immediately
+                if (santaLaugh.readyState >= 2) {
+                    playSantaLaugh();
+                } else {
+                    // Wait for audio to be ready, then play immediately
+                    santaLaugh.addEventListener('canplaythrough', function() {
+                        playSantaLaugh();
+                    }, { once: true });
+                    
+                    // Also try to play as soon as possible
+                    santaLaugh.addEventListener('loadeddata', function() {
+                        playSantaLaugh();
+                    }, { once: true });
+                }
             }
-        });
-        
-        // Also try to play immediately (for faster loading)
-        setTimeout(function() {
-            playSantaLaugh();
-        }, 500);
-        
-        // Play laugh every 15 seconds (synchronized with Santa animation)
-        // The "Ho Ho Ho" appears at 12% of the cycle (1.8s into 15s cycle)
-        setInterval(function() {
-            setTimeout(playSantaLaugh, 1800); // Play at 1.8s mark
-        }, 15000);
+            
+            // Try to play on DOMContentLoaded (faster than window.load)
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    if (santaLaugh && santaLaugh.readyState >= 2) {
+                        playSantaLaugh();
+                    }
+                });
+            } else {
+                // DOM is already loaded, try to play immediately
+                if (santaLaugh && santaLaugh.readyState >= 2) {
+                    playSantaLaugh();
+                }
+            }
+            
+            // Play laugh every 15 seconds (synchronized with Santa animation)
+            // The "Ho Ho Ho" appears at 12% of the cycle (1.8s into 15s cycle)
+            setInterval(function() {
+                setTimeout(function() {
+                    if (santaLaugh) {
+                        santaLaugh.currentTime = 0;
+                        santaLaugh.play().catch(() => {});
+                    }
+                }, 1800); // Play at 1.8s mark
+            }, 15000);
+        })();
         
         // Create sparkle effects
         function createSparkle() {
