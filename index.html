@@ -1660,17 +1660,77 @@
                 // Also listen for keydown (keyboard interaction)
                 document.addEventListener('keydown', enableAudioAndPlay, {once: true});
 
+                // Helper function to check if page is visible
+                function isPageVisible() {
+                    if (typeof document.hidden !== "undefined") {
+                        return !document.hidden;
+                    } else if (typeof document.webkitHidden !== "undefined") {
+                        return !document.webkitHidden;
+                    } else if (typeof document.mozHidden !== "undefined") {
+                        return !document.mozHidden;
+                    } else if (typeof document.msHidden !== "undefined") {
+                        return !document.msHidden;
+                    }
+                    return true; // Default to visible if API not supported
+                }
+
                 // Play laugh every 15 seconds (synchronized with Santa animation)
                 // The "Ho Ho Ho" appears at 12% of the cycle (1.8s into 15s cycle)
-                // Only plays if user has enabled audio
-                setInterval(function () {
+                // Only plays if user has enabled audio AND page is visible
+                let audioInterval = setInterval(function () {
                     setTimeout(function () {
-                        if (audioEnabled && audio && audio.readyState >= 3) {
+                        // Check if page is visible before playing
+                        if (audioEnabled && audio && audio.readyState >= 3 && isPageVisible()) {
                             audio.currentTime = 0;
                             audio.play().catch(() => {});
                         }
                     }, 1800); // Play at 1.8s mark
                 }, 15000);
+
+                // Pause audio when page becomes hidden (screen locked, tab switched, etc.)
+                function handleVisibilityChange() {
+                    if (document.hidden || document.webkitHidden || document.mozHidden || document.msHidden) {
+                        // Page is hidden - pause audio
+                        if (audio && !audio.paused) {
+                            audio.pause();
+                        }
+                    } else {
+                        // Page is visible - audio will resume on next interval if enabled
+                        // Don't auto-play to respect user's choice
+                    }
+                }
+
+                // Listen for page visibility changes
+                if (typeof document.hidden !== "undefined") {
+                    document.addEventListener("visibilitychange", handleVisibilityChange);
+                } else if (typeof document.webkitHidden !== "undefined") {
+                    document.addEventListener("webkitvisibilitychange", handleVisibilityChange);
+                } else if (typeof document.mozHidden !== "undefined") {
+                    document.addEventListener("mozvisibilitychange", handleVisibilityChange);
+                } else if (typeof document.msHidden !== "undefined") {
+                    document.addEventListener("msvisibilitychange", handleVisibilityChange);
+                }
+
+                // Also pause audio when page is about to be unloaded
+                window.addEventListener('beforeunload', function() {
+                    if (audio && !audio.paused) {
+                        audio.pause();
+                    }
+                });
+
+                // Pause audio when window loses focus (mobile screen lock, app switch, etc.)
+                window.addEventListener('blur', function() {
+                    if (audio && !audio.paused) {
+                        audio.pause();
+                    }
+                });
+
+                // For mobile devices - pause when app goes to background
+                document.addEventListener('pause', function() {
+                    if (audio && !audio.paused) {
+                        audio.pause();
+                    }
+                }, false);
             })();
         </script>
 
