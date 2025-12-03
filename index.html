@@ -258,8 +258,7 @@
             }
 
             @keyframes giftShake {
-                0,
-                100% {
+                0% {
                     transform: rotate(0deg);
                 }
                 25% {
@@ -267,6 +266,9 @@
                 }
                 75% {
                     transform: rotate(10deg);
+                }
+                100% {
+                    transform: rotate(0deg);
                 }
             }
 
@@ -375,14 +377,17 @@
             }
 
             @keyframes twinkle {
-                0,
-                100% {
+                0% {
                     opacity: 0.3;
                     transform: scale(1);
                 }
                 50% {
                     opacity: 1;
                     transform: scale(1.2);
+                }
+                100% {
+                    opacity: 0.3;
+                    transform: scale(1);
                 }
             }
 
@@ -436,17 +441,26 @@
             }
 
             @keyframes hoHoHo {
-                0,
+                0% {
+                    opacity: 0;
+                    transform: translateX(-50%) scale(0.5);
+                }
                 10% {
                     opacity: 0;
                     transform: translateX(-50%) scale(0.5);
                 }
-                12%,
+                12% {
+                    opacity: 1;
+                    transform: translateX(-50%) scale(1.2);
+                }
                 18% {
                     opacity: 1;
                     transform: translateX(-50%) scale(1.2);
                 }
-                20%,
+                20% {
+                    opacity: 0;
+                    transform: translateX(-50%) scale(0.5);
+                }
                 100% {
                     opacity: 0;
                     transform: translateX(-50%) scale(0.5);
@@ -487,12 +501,14 @@
             }
 
             @keyframes hatBounce {
-                0,
-                100% {
+                0% {
                     transform: translateY(0) rotate(-10deg);
                 }
                 50% {
                     transform: translateY(-15px) rotate(10deg);
+                }
+                100% {
+                    transform: translateY(0) rotate(-10deg);
                 }
             }
 
@@ -542,14 +558,17 @@
             }
 
             @keyframes sparkleFloat {
-                0,
-                100% {
+                0% {
                     opacity: 0;
                     transform: translateY(0) scale(0);
                 }
                 50% {
                     opacity: 1;
                     transform: translateY(-50px) scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(0) scale(0);
                 }
             }
 
@@ -620,8 +639,9 @@
             }
 
             @keyframes twinkleStars {
-                0%, 100% { opacity: 0.5; }
+                0% { opacity: 0.5; }
                 50% { opacity: 1; }
+                100% { opacity: 0.5; }
             }
 
             .intro-overlay.hidden {
@@ -664,11 +684,14 @@
             }
 
             @keyframes ribbonFloat {
-                0%, 100% {
+                0% {
                     transform: translateX(-50%) translateY(0) rotate(-5deg);
                 }
                 50% {
                     transform: translateX(-50%) translateY(-10px) rotate(5deg);
+                }
+                100% {
+                    transform: translateX(-50%) translateY(0) rotate(-5deg);
                 }
             }
 
@@ -701,13 +724,17 @@
             }
 
             @keyframes sparkleFloat {
-                0%, 100% {
+                0% {
                     opacity: 0.5;
                     transform: scale(0.8) rotate(0deg);
                 }
                 50% {
                     opacity: 1;
                     transform: scale(1.2) rotate(180deg);
+                }
+                100% {
+                    opacity: 0.5;
+                    transform: scale(0.8) rotate(0deg);
                 }
             }
 
@@ -720,16 +747,19 @@
             }
 
             @keyframes giftFloat {
-                0%, 100% {
+                0% {
                     transform: translateY(0);
                 }
                 50% {
                     transform: translateY(-25px);
                 }
+                100% {
+                    transform: translateY(0);
+                }
             }
 
             @keyframes giftRotate {
-                0%, 100% {
+                0% {
                     transform: rotate(-8deg);
                 }
                 25% {
@@ -741,14 +771,20 @@
                 75% {
                     transform: rotate(5deg);
                 }
+                100% {
+                    transform: rotate(-8deg);
+                }
             }
 
             @keyframes giftGlow {
-                0%, 100% {
+                0% {
                     filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 60px rgba(255, 215, 0, 0.5));
                 }
                 50% {
                     filter: drop-shadow(0 0 50px rgba(255, 215, 0, 1)) drop-shadow(0 0 100px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 150px rgba(255, 107, 107, 0.4));
+                }
+                100% {
+                    filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 60px rgba(255, 215, 0, 0.5));
                 }
             }
 
@@ -783,22 +819,29 @@
             }
 
             @keyframes pointBounce {
-                0%, 100% {
+                0% {
                     transform: translateX(0);
                 }
                 50% {
                     transform: translateX(10px);
                 }
+                100% {
+                    transform: translateX(0);
+                }
             }
 
             @keyframes pulseText {
-                0%, 100% {
+                0% {
                     opacity: 0.9;
                     transform: scale(1);
                 }
                 50% {
                     opacity: 1;
                     transform: scale(1.08);
+                }
+                100% {
+                    opacity: 0.9;
+                    transform: scale(1);
                 }
             }
 
@@ -911,6 +954,11 @@
                 height: 100%;
                 pointer-events: none;
                 z-index: 0;
+                overflow: hidden;
+            }
+
+            .intro-overlay.hidden .floating-snowflakes {
+                display: none;
             }
 
             .snowflake {
@@ -932,11 +980,11 @@
 
             @keyframes snowfall {
                 0% {
-                    top: -10%;
+                    top: 0%;
                     transform: translateX(0) rotate(0deg);
                 }
                 100% {
-                    top: 110%;
+                    top: 100%;
                     transform: translateX(50px) rotate(360deg);
                 }
             }
@@ -973,7 +1021,7 @@
             }
 
             @keyframes cornerTwinkle {
-                0%, 100% {
+                0% {
                     opacity: 0.3;
                     transform: scale(1) rotate(0deg);
                 }
@@ -981,6 +1029,49 @@
                     opacity: 0.8;
                     transform: scale(1.2) rotate(180deg);
                 }
+                100% {
+                    opacity: 0.3;
+                    transform: scale(1) rotate(0deg);
+                }
+            }
+
+            /* Flying Santa Claus in Intro Overlay */
+            .intro-santa-flying {
+                position: absolute;
+                top: 10%;
+                left: -150px;
+                z-index: 9999;
+                font-size: 80px;
+                animation: introSantaFly 12s linear infinite;
+                pointer-events: none;
+                filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.6)) drop-shadow(0 0 25px rgba(255, 215, 0, 0.4));
+            }
+
+            @keyframes introSantaFly {
+                0% {
+                    left: -150px;
+                    transform: translateY(0) rotate(0deg);
+                }
+                20% {
+                    transform: translateY(-30px) rotate(-8deg);
+                }
+                40% {
+                    transform: translateY(0) rotate(0deg);
+                }
+                60% {
+                    transform: translateY(30px) rotate(8deg);
+                }
+                80% {
+                    transform: translateY(-15px) rotate(-5deg);
+                }
+                100% {
+                    left: calc(100% + 150px);
+                    transform: translateY(0) rotate(0deg);
+                }
+            }
+
+            .intro-overlay.hidden .intro-santa-flying {
+                display: none;
             }
 
             /* Responsive gift icon */
@@ -1004,6 +1095,11 @@
 
                 .decorative-corner {
                     font-size: 35px;
+                }
+
+                .intro-santa-flying {
+                    font-size: 60px;
+                    top: 8%;
                 }
             }
 
@@ -1032,6 +1128,11 @@
 
                 .decorative-corner {
                     font-size: 30px;
+                }
+
+                .intro-santa-flying {
+                    font-size: 50px;
+                    top: 5%;
                 }
             }
 
@@ -1090,6 +1191,9 @@
                 <div class="snowflake">❆</div>
             </div>
             
+            <!-- Flying Santa Claus -->
+            <div class="intro-santa-flying">🎅🛷</div>
+            
             <div class="intro-content">
                 <div class="gift-container" id="giftIconWrapper">
                     <div class="decorative-corner top-left">⭐</div>
@@ -1113,7 +1217,7 @@
                         <div class="gift-icon">🎁</div>
                     </div>
                     
-                    <p class="click-hint">Click the gift to open</p>
+                    <p class="click-hint">Click the Gift</p>
                 </div>
             </div>
         </div>
