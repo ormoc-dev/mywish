@@ -311,7 +311,45 @@
                 }
             }
 
-            /* Responsive Design */
+            /* Responsive Design - Main Content */
+            
+            /* Large screens (1920px and above) */
+            @media(min-width: 1920px) {
+                .header h1 {
+                    font-size: 4rem;
+                }
+
+                .header p {
+                    font-size: 1.5rem;
+                }
+
+                .wish-gallery {
+                    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                    gap: 40px;
+                }
+            }
+
+            /* Tablets and small laptops (768px - 1024px) */
+            @media(max-width: 1024px) and (min-width: 769px) {
+                .header h1 {
+                    font-size: 2.5rem;
+                }
+
+                .header p {
+                    font-size: 1.1rem;
+                }
+
+                .wish-gallery {
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                    gap: 25px;
+                }
+
+                body {
+                    padding: 20px;
+                }
+            }
+
+            /* Tablets (768px and below) */
             @media(max-width: 768px) {
                 .header h1 {
                     font-size: 2rem;
@@ -328,13 +366,23 @@
 
                 body {
                     padding: 15px;
+                    padding-bottom: 100px;
+                }
+
+                .container {
+                    max-width: 100%;
                 }
             }
 
+            /* Mobile phones (480px and below) */
             @media(max-width: 480px) {
                 .header h1 {
                     font-size: 1.5rem;
                     letter-spacing: 2px;
+                }
+
+                .header p {
+                    font-size: 0.9rem;
                 }
 
                 .wish-item {
@@ -347,6 +395,59 @@
 
                 .last-option-message {
                     font-size: 0.9rem;
+                }
+
+                body {
+                    padding: 10px;
+                    padding-bottom: 90px;
+                }
+
+                .wish-gallery {
+                    gap: 15px;
+                }
+            }
+
+            /* Extra small mobile phones (360px and below) */
+            @media(max-width: 360px) {
+                .header h1 {
+                    font-size: 1.3rem;
+                    letter-spacing: 1px;
+                }
+
+                .header p {
+                    font-size: 0.85rem;
+                }
+
+                .last-option-title {
+                    font-size: 1rem;
+                }
+
+                .last-option-message {
+                    font-size: 0.85rem;
+                }
+
+                body {
+                    padding: 8px;
+                    padding-bottom: 80px;
+                }
+
+                .wish-gallery {
+                    gap: 12px;
+                }
+            }
+
+            /* Landscape orientation for mobile */
+            @media(max-width: 768px) and (orientation: landscape) {
+                .header h1 {
+                    font-size: 1.8rem;
+                }
+
+                .header p {
+                    font-size: 0.95rem;
+                }
+
+                body {
+                    padding: 10px;
                 }
             }
 
@@ -1074,7 +1175,70 @@
                 display: none;
             }
 
-            /* Responsive gift icon */
+            /* Responsive gift icon and intro overlay */
+            
+            /* Large screens (1920px and above) */
+            @media(min-width: 1920px) {
+                .gift-icon {
+                    font-size: 180px;
+                }
+
+                .gift-ribbon {
+                    font-size: 100px;
+                }
+
+                .click-hint {
+                    font-size: 2.2rem;
+                }
+
+                .intro-santa-flying {
+                    font-size: 100px;
+                }
+
+                .snowflake {
+                    font-size: 25px;
+                }
+            }
+
+            /* Tablets and small laptops (768px - 1024px) */
+            @media(max-width: 1024px) and (min-width: 769px) {
+                .gift-icon {
+                    font-size: 130px;
+                }
+
+                .gift-ribbon {
+                    font-size: 70px;
+                    top: -25px;
+                }
+
+                .click-hint {
+                    font-size: 1.6rem;
+                }
+
+                .intro-content {
+                    padding: 50px;
+                }
+
+                .gift-container {
+                    padding: 35px;
+                }
+
+                .intro-santa-flying {
+                    font-size: 70px;
+                    top: 9%;
+                }
+
+                .decorative-corner {
+                    font-size: 40px;
+                }
+
+                .gift-icon::before,
+                .gift-icon::after {
+                    font-size: 35px;
+                }
+            }
+
+            /* Tablets (768px and below) */
             @media(max-width: 768px) {
                 .gift-icon {
                     font-size: 110px;
@@ -1087,6 +1251,7 @@
 
                 .click-hint {
                     font-size: 1.3rem;
+                    letter-spacing: 2.5px;
                 }
 
                 .gift-container {
@@ -1101,8 +1266,34 @@
                     font-size: 60px;
                     top: 8%;
                 }
+
+                .intro-content {
+                    padding: 40px;
+                }
+
+                .gift-icon::before,
+                .gift-icon::after {
+                    font-size: 30px;
+                    top: -15px;
+                    left: -15px;
+                }
+
+                .gift-icon::after {
+                    bottom: -15px;
+                    right: -15px;
+                }
+
+                .snowflake {
+                    font-size: 18px;
+                }
+
+                .sparkle-dot {
+                    width: 8px;
+                    height: 8px;
+                }
             }
 
+            /* Mobile phones (480px and below) */
             @media(max-width: 480px) {
                 .gift-icon {
                     font-size: 90px;
@@ -1116,10 +1307,11 @@
                 .click-hint {
                     font-size: 1.1rem;
                     letter-spacing: 2px;
+                    margin-top: 30px;
                 }
 
                 .intro-content {
-                    padding: 30px;
+                    padding: 30px 20px;
                 }
 
                 .gift-container {
@@ -1133,6 +1325,117 @@
                 .intro-santa-flying {
                     font-size: 50px;
                     top: 5%;
+                }
+
+                .gift-icon::before,
+                .gift-icon::after {
+                    font-size: 25px;
+                    top: -10px;
+                    left: -10px;
+                }
+
+                .gift-icon::after {
+                    bottom: -10px;
+                    right: -10px;
+                }
+
+                .snowflake {
+                    font-size: 16px;
+                }
+
+                .sparkle-dot {
+                    width: 6px;
+                    height: 6px;
+                }
+
+                .intro-overlay::before {
+                    background-size: 150px 150px, 120px 120px, 140px 140px;
+                }
+            }
+
+            /* Extra small mobile phones (360px and below) */
+            @media(max-width: 360px) {
+                .gift-icon {
+                    font-size: 75px;
+                }
+
+                .gift-ribbon {
+                    font-size: 40px;
+                    top: -12px;
+                }
+
+                .click-hint {
+                    font-size: 0.95rem;
+                    letter-spacing: 1.5px;
+                    margin-top: 25px;
+                }
+
+                .intro-content {
+                    padding: 20px 15px;
+                }
+
+                .gift-container {
+                    padding: 15px;
+                }
+
+                .decorative-corner {
+                    font-size: 25px;
+                }
+
+                .intro-santa-flying {
+                    font-size: 40px;
+                    top: 3%;
+                }
+
+                .gift-icon::before,
+                .gift-icon::after {
+                    font-size: 20px;
+                    top: -8px;
+                    left: -8px;
+                }
+
+                .gift-icon::after {
+                    bottom: -8px;
+                    right: -8px;
+                }
+
+                .snowflake {
+                    font-size: 14px;
+                }
+
+                .sparkle-dot {
+                    width: 5px;
+                    height: 5px;
+                }
+            }
+
+            /* Landscape orientation for mobile */
+            @media(max-width: 768px) and (orientation: landscape) {
+                .gift-icon {
+                    font-size: 80px;
+                }
+
+                .gift-ribbon {
+                    font-size: 45px;
+                    top: -12px;
+                }
+
+                .click-hint {
+                    font-size: 1rem;
+                    margin-top: 20px;
+                }
+
+                .intro-content {
+                    padding: 20px;
+                }
+
+                .gift-container {
+                    padding: 15px;
+                }
+
+                .intro-santa-flying {
+                    font-size: 45px;
+                    top: 3%;
                 }
             }
 
@@ -1162,16 +1465,77 @@
                 display: block;
             }
 
-            /* Responsive footer */
+            /* Responsive footer and additional elements */
+            @media(max-width: 1024px) {
+                footer {
+                    width: 70%;
+                }
+            }
+
             @media(max-width: 768px) {
                 footer {
+                    width: 80%;
                     padding: 0px;
+                }
+
+                .santa-sleigh {
+                    font-size: 50px;
+                }
+
+                .ho-ho-ho {
+                    font-size: 2.5rem;
                 }
             }
 
             @media(max-width: 480px) {
                 footer {
+                    width: 100%;
                     padding: 0px;
+                }
+
+                .santa-sleigh {
+                    font-size: 40px;
+                    top: 12%;
+                }
+
+                .ho-ho-ho {
+                    font-size: 2rem;
+                }
+
+                .santa-hat {
+                    font-size: 25px;
+                }
+            }
+
+            @media(max-width: 360px) {
+                footer {
+                    width: 100%;
+                }
+
+                .santa-sleigh {
+                    font-size: 35px;
+                }
+
+                .ho-ho-ho {
+                    font-size: 1.5rem;
+                }
+
+                .santa-hat {
+                    font-size: 20px;
+                }
+            }
+
+            /* Ensure all interactive elements are touch-friendly on mobile */
+            @media(max-width: 768px) {
+                .wish-overlay a {
+                    min-height: 44px;
+                    min-width: 120px;
+                }
+
+                .gift-icon-wrapper,
+                .gift-container {
+                    min-height: 44px;
+                    min-width: 44px;
                 }
             }
         </style>
@@ -1193,7 +1557,7 @@
             
             <!-- Flying Santa Claus -->
             <div class="intro-santa-flying">🎅🛷</div>
-            
+          
             <div class="intro-content">
                 <div class="gift-container" id="giftIconWrapper">
                     <div class="decorative-corner top-left">⭐</div>
